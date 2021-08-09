@@ -36,14 +36,8 @@
           <a-descriptions-item label="交付日期">
             {{contractInfo.deliveryDate}}
           </a-descriptions-item>
-          <a-descriptions-item label="附件">
-            <a-popover title="附件列表">
-              <template slot="content">
-                <p><a>附件1</a></p>
-                <p><a>附件2</a></p>
-              </template>
-              <a>查看</a>
-            </a-popover>
+          <a-descriptions-item label="合同总金额">
+            200000
           </a-descriptions-item>
           <a-descriptions-item label="违约责任">
             {{contractInfo.breachLiability}}

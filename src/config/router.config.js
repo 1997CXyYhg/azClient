@@ -270,11 +270,11 @@ export const asyncRouterMap = [
       },
 
       // other
-      /*
+      // /*
       {
         path: '/other',
         name: 'otherPage',
-        component: PageView,
+        component: RouteView,
         meta: { title: '其他组件', icon: 'slack', permission: [ 'dashboard' ] },
         redirect: '/other/icon-selector',
         children: [
@@ -314,12 +314,12 @@ export const asyncRouterMap = [
                 component: () => import('@/views/other/RoleList'),
                 meta: { title: '角色列表', keepAlive: true }
               },
-              {
-                path: '/other/list/system-role',
-                name: 'SystemRole',
-                component: () => import('@/views/role/RoleList'),
-                meta: { title: '角色列表2', keepAlive: true }
-              },
+              // {
+              //   path: '/other/list/system-role',
+              //   name: 'SystemRole',
+              //   component: () => import('@/views/role/RoleList'),
+              //   meta: { title: '角色列表2', keepAlive: true }
+              // },
               {
                 path: '/other/list/permission-list',
                 name: 'PermissionList',
@@ -329,8 +329,8 @@ export const asyncRouterMap = [
             ]
           }
         ]
-      }
-      */
+      },
+      // */
       // bussines
       {
         path: '/staff',
@@ -470,6 +470,23 @@ export const asyncRouterMap = [
             // hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
             component: () => import('@/views/incomeExpenses/IncomeExpenses'),
             meta: { title: '收支列表', keepAlive: true, permission: ['incomeExpenses'] }
+          }
+        ]
+      },
+      // permission
+      {
+        path: '/permission',
+        name: 'permission',
+        component: RouteView,
+        redirect: '/permission/permissionList',
+        meta: { title: '权限管理', icon: 'table', permission: ['permission'] },
+        children: [
+          {
+            path: '/permission/permissionList',
+            name: 'permissionList',
+            // hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+            component: () => import('@/views/permission/Permission'),
+            meta: { title: '权限配置', keepAlive: true, permission: ['permission'] }
           }
         ]
       }

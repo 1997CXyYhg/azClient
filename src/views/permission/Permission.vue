@@ -1,151 +1,38 @@
 <template>
   <page-header-wrapper>
-    <a-card :bordered="false">
-      <div class="table-page-search-wrapper">
-        <a-form layout="inline">
-          <a-row :gutter="48">
-            <a-col :md="5" :sm="16">
-              <a-form-item label="姓名">
-                <a-input v-model="queryParam.staffName" placeholder=""/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="5" :sm="16">
-              <a-form-item label="部门">
-                <a-select v-model="queryParam.department" placeholder="请选择" default-value="0">
-                  <a-select-option value="0">研发部</a-select-option>
-                  <a-select-option value="1">工程部</a-select-option>
-                  <a-select-option value="2">GC部</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="5" :sm="16">
-              <a-form-item label="岗位">
-                <a-input v-model="queryParam.jobs" placeholder=""/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="!advanced && 8 || 24" :sm="24">
-              <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
-                <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-                <a-button style="margin-left: 8px" @click="() => this.queryParam = {}">重置</a-button>
-              </span>
-            </a-col>
-          </a-row>
-        </a-form>
-      </div>
+    <a-card :bordered="false" title="权限配置">
+      <a-row :gutter="24">
+        <a-col :md="12">
+          <a-card title="角色">
+            <div class="table-operator">
+              <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
+            </div>
+            <a-list item-layout="horizontal" :data-source="data">
+              <a-list-item slot="renderItem" slot-scope="item">
+                <a-list-item-meta>
+                  <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
+                </a-list-item-meta>
+              </a-list-item>
+            </a-list>
+          </a-card>
+        </a-col>
+        <a-col :md="12">
+          <a-card title="权限">
+            <div class="table-operator">
+              <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
+            </div>
+            <a-tree
+              v-model="checkedKeys"
+              checkable
+              :expanded-keys="expandedKeys"
+              :auto-expand-parent="autoExpandParent"
+              :selected-keys="selectedKeys"
+              :tree-data="treeData"
+            />
+          </a-card>
+        </a-col>
+      </a-row>
 
-      <div class="table-operator">
-        <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
-        <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
-          <a-menu slot="overlay">
-            <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
-            <!-- lock | unlock -->
-            <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
-          </a-menu>
-          <a-button style="margin-left: 8px">
-            批量操作 <a-icon type="down" />
-          </a-button>
-        </a-dropdown>
-      </div>
-      <div>
-        <a-row :gutter="48">
-          <a-col :md="16" :sm="24">
-            <s-table
-              ref="table"
-              size="default"
-              rowKey="key"
-              :columns="columns"
-              :data="loadData"
-              :alert="true"
-              :rowSelection="rowSelection"
-              showPagination="auto"
-              :customRow="tableCustomRow"
-            >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-              <span slot="status" slot-scope="text">
-          <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
-        </span>
-              <span slot="description" slot-scope="text">
-          <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
-        </span>
-
-              <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="handleEdit(record)">配置</a>
-          </template>
-        </span>
-            </s-table>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-descriptions title="员工信息" v-show="staffInfo !== {}">
-              <a-descriptions-item label="入职日期">
-                {{ staffInfo.entryDate }}
-              </a-descriptions-item>
-              <a-descriptions-item label="姓名">
-                {{staffInfo.staffName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="性别">
-                {{staffInfo.sex}}
-              </a-descriptions-item>
-              <a-descriptions-item label="部门">
-                {{staffInfo.department}}
-              </a-descriptions-item>
-              <a-descriptions-item label="岗位">
-                {{staffInfo.jobs}}
-              </a-descriptions-item>
-              <a-descriptions-item label="联系方式">
-                {{staffInfo.contactWay}}
-              </a-descriptions-item>
-              <a-descriptions-item label="身份证号">
-                {{staffInfo.IDCard}}
-              </a-descriptions-item>
-              <a-descriptions-item label="出生日期">
-                {{staffInfo.birthDate}}
-              </a-descriptions-item>
-              <a-descriptions-item label="紧急联系人">
-                {{staffInfo.emergencyContact}}
-              </a-descriptions-item>
-              <a-descriptions-item label="紧急联系人方式">
-                {{staffInfo.emergencyContactWay}}
-              </a-descriptions-item>
-              <a-descriptions-item label="配偶姓名">
-                {{staffInfo.spouseName}}
-              </a-descriptions-item>
-              <a-descriptions-item label="配偶联系方式">
-                {{staffInfo.spouseContactWay}}
-              </a-descriptions-item>
-              <a-descriptions-item label="父亲姓名">
-                {{staffInfo.fatherName}}
-              </a-descriptions-item>
-              <a-descriptions-item label="父亲联系方式">
-                {{staffInfo.fatherNameContactWay}}
-              </a-descriptions-item>
-              <a-descriptions-item label="母亲姓名">
-                {{staffInfo.motherName}}
-              </a-descriptions-item>
-              <a-descriptions-item label="母亲联系方式">
-                {{staffInfo.motherContactWay}}
-              </a-descriptions-item>
-              <a-descriptions-item label="兴趣爱好">
-                {{staffInfo.hobbies}}
-              </a-descriptions-item>
-              <a-descriptions-item label="备注">
-                {{staffInfo.note}}
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-col>
-        </a-row>
-      </div>
-      <create-form
-        ref="createModal"
-        :visible="visible"
-        :loading="confirmLoading"
-        :model="mdl"
-        @cancel="handleCancel"
-        @ok="handleOk"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
     </a-card>
   </page-header-wrapper>
 </template>
@@ -154,35 +41,22 @@
 import moment from 'moment'
 import { STable, Ellipsis } from '@/components'
 import { getRoleList, getServiceList } from '@/api/manage'
-
 import StepByStepModal from './modules/StepByStepModal'
 import CreateForm from './modules/CreateForm'
+import STree from '@/components/Tree/Tree'
 
-const columns = [
+const roleColumns = [
   {
     title: '#',
     scopedSlots: { customRender: 'serial' }
   },
   {
-    title: '入职日期',
-    dataIndex: 'entryDate'
+    title: '名称',
+    dataIndex: 'roleName'
   },
   {
-    title: '姓名',
-    dataIndex: 'staffName',
-    scopedSlots: { customRender: 'description' }
-  },
-  {
-    title: '部门',
-    dataIndex: 'department'
-  },
-  {
-    title: '岗位',
-    dataIndex: 'jobs'
-  },
-  {
-    title: '角色',
-    dataIndex: 'role'
+    title: '权限',
+    dataIndex: 'permission'
   },
   {
     title: '操作',
@@ -211,17 +85,69 @@ const statusMap = {
   }
 }
 
+const treeData = [
+  {
+    title: '员工管理',
+    key: '0-0',
+    children: [
+      {
+        title: '员工信息',
+        key: '0-0-0',
+        children: [
+          { title: '新增', key: '0-0-0-0' },
+          { title: '删除', key: '0-0-0-1' }
+        ]
+      }
+    ]
+  },
+  {
+    title: '客户管理',
+    key: '0-0',
+    children: [
+      {
+        title: '客户信息',
+        key: '0-0-0',
+        children: [
+          { title: '新增', key: '0-0-0-0' },
+          { title: '删除', key: '0-0-0-1' }
+        ]
+      }
+    ]
+  }
+]
+
+const data = [
+  {
+    title: '工程师'
+  },
+  {
+    title: '会计'
+  },
+  {
+    title: '总经理'
+  },
+  {
+    title: '项目经理'
+  }
+]
 export default {
   name: 'TableList',
   components: {
     STable,
     Ellipsis,
     CreateForm,
-    StepByStepModal
+    StepByStepModal,
+    STree
   },
   data () {
-    this.columns = columns
+    this.roleColumns = roleColumns
+    this.treeData = treeData
+    this.data = data
     return {
+      expandedKeys: ['0-0-0', '0-0-1'],
+      autoExpandParent: true,
+      checkedKeys: ['0-0-0'],
+      selectedKeys: [],
       // create model
       visible: false,
       confirmLoading: false,
@@ -239,9 +165,9 @@ export default {
             return {
               data: [{
                 id: 1,
-                entryDate: '2020-10-01',
-                staffName: '张三',
-                sex: '男',
+                createDate: '2020-10-01',
+                roleName: '张三',
+                permission: '男',
                 department: '研发部',
                 jobs: '工程师',
                 IDCard: '330382199701100337',
@@ -313,7 +239,8 @@ export default {
       staffInfo: {},
       selectedRowKeys: [],
       selectedRows: [],
-      physicalSurveyCurrRowId: null
+      physicalSurveyCurrRowId: null,
+      treeData
     }
   },
   filters: {

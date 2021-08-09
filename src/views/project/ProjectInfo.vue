@@ -26,7 +26,7 @@
     </a-card>
     <a-card :bordered="false" title="合同详情">
       <a-row :gutter="24">
-        <a-col :md="12">
+        <a-col :md="10">
           <div class="table-operator">
             <span style="margin-right: 20px">项目合同</span>
             <a-button type="primary" icon="plus" @click="memberAdd">新增</a-button>
@@ -58,7 +58,7 @@
             @cancel="memberCancel"
             @ok="memberOk"
           /></a-col>
-        <a-col :md="12">
+        <a-col :md="14">
           <div class="table-operator">
             <span style="margin-right: 20px">采购合同</span>
             <a-button type="primary" icon="plus" @click="memberAdd">新增</a-button>
@@ -68,7 +68,7 @@
               ref="teamTable"
               size="default"
               rowKey="key"
-              :columns="contractColumns"
+              :columns="supplierContractColumns"
               :data="teamData"
               :alert="true"
             >
@@ -95,7 +95,44 @@
     </a-card>
     <a-card :bordered="false" title="项目进度">
       <div>
+        <div>
+          <span style="float: left">2021-01-01</span>
+          <span style="float: right">2021-10-01</span>
+        </div>
         <a-progress :percent="30" />
+        <a-divider />
+        <div>
+          <a-row :gutter="24">
+              <a-col :md="2">
+                <span style="line-height: 32px">签订合同:</span>
+              </a-col>
+              <a-col :md="22">
+                <a-steps :current="current">
+                  <a-step v-for="item in steps" :key="item.title" :title="item.title" />
+                </a-steps>
+              </a-col>
+            </a-row>
+          <a-row :gutter="[30,30]">
+            <a-col :md="2">
+              <span style="line-height: 32px">设备采购:</span>
+            </a-col>
+            <a-col :md="22">
+              <a-steps :current="current">
+                <a-step v-for="item in steps" :key="item.title" :title="item.title" />
+              </a-steps>
+            </a-col>
+          </a-row>
+          <a-row :gutter="24">
+            <a-col :md="2">
+              <span style="line-height: 32px">系统研发:</span>
+            </a-col>
+            <a-col :md="22">
+              <a-steps :current="current">
+                <a-step v-for="item in steps" :key="item.title" :title="item.title" />
+              </a-steps>
+            </a-col>
+          </a-row>
+        </div>
       </div>
     </a-card>
     <a-card :bordered="false" title="团队成员">
@@ -142,20 +179,25 @@
       <step-by-step-modal ref="modal" @ok="handleOk"/>
     </a-card>
     <a-card :bordered="false" title="采购清单">
+      <a-row :gutter="[30, 30]">
+        <a-col :md="12">
+          <bar :data="barData" />
+        </a-col>
+      </a-row>
       <a-row :gutter="[30, 30]" >
         <a-col :md="12">
           <div class="table-operator">
-            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">计划采购清单</span>
+            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">项目合同清单</span>
             <a-button type="primary" icon="plus" @click="productAdd">新建</a-button>
             <span style="margin-right: 30px;font-size: 18px; font-weight: bold; float: right">总金额: 4999</span>
             <span style="clear: both"></span>
-        </div>
+          </div>
           <div>
             <s-table
               ref="productTable"
               size="default"
               rowKey="key"
-              :columns="productColumns"
+              :columns="productColumns2"
               :data="loadData"
               :alert="true"
               :rowSelection="rowSelection"
@@ -166,9 +208,13 @@
         </span>
               <span slot="action" slot-scope="text, record">
           <template>
-            <a @click="productEdit(record)">配置</a>
-             <a-divider type="vertical" />
-            <a @click="handleEdit(record)">移除</a>
+            <a-popover>
+              <template slot="content">
+                <p>合同名称: xxx合同</p>
+                <p>合同总金额: 20000</p>
+              </template>
+              <a @click="handleInfo(record)">合同</a>
+            </a-popover>
           </template>
         </span>
             </s-table>
@@ -183,17 +229,17 @@
           /></a-col>
         <a-col :md="12">
           <div class="table-operator">
-            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">项目合同清单</span>
+            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">计划采购清单</span>
             <a-button type="primary" icon="plus" @click="productAdd">新建</a-button>
             <span style="margin-right: 30px;font-size: 18px; font-weight: bold; float: right">总金额: 4999</span>
             <span style="clear: both"></span>
-          </div>
+        </div>
           <div>
             <s-table
               ref="productTable"
               size="default"
               rowKey="key"
-              :columns="productColumns"
+              :columns="productColumns2"
               :data="loadData"
               :alert="true"
               :rowSelection="rowSelection"
@@ -204,7 +250,9 @@
         </span>
               <span slot="action" slot-scope="text, record">
           <template>
-            <a @click="handleInfo(record)">合同</a>
+            <a @click="productEdit(record)">配置</a>
+             <a-divider type="vertical" />
+            <a @click="handleEdit(record)">移除</a>
           </template>
         </span>
             </s-table>
@@ -237,14 +285,20 @@
               :rowSelection="rowSelection"
               showPagination="auto"
             >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
+              <span slot="serial" slot-scope="text, record, index">
+                {{ index + 1 }}
+              </span>
               <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="handleInfo(record)">合同</a>
-          </template>
-        </span>
+                <template>
+                  <a-popover>
+                    <template slot="content">
+                      <p>合同名称: xxx合同</p>
+                      <p>合同总金额: 20000</p>
+                    </template>
+                    <a @click="handleInfo(record)">合同</a>
+                  </a-popover>
+                </template>
+              </span>
             </s-table>
           </div>
           <product-form
@@ -267,7 +321,7 @@
               ref="productTable"
               size="default"
               rowKey="key"
-              :columns="productColumns"
+              :columns="productColumns2"
               :data="loadData"
               :alert="true"
               :rowSelection="rowSelection"
@@ -429,7 +483,7 @@
 </template>
 
 <script>
-import { STable, Ellipsis } from '@/components'
+import { STable, Ellipsis, Bar } from '@/components'
 import { getRoleList, getServiceList } from '@/api/manage'
 
 import StepByStepModal from './modules/StepByStepModal'
@@ -472,12 +526,45 @@ const productColumns = [
     dataIndex: 'supplier'
   },
   {
-    title: '类型',
-    dataIndex: 'type'
+    title: '备注',
+    dataIndex: 'note'
   },
   {
-    title: '合同',
-    dataIndex: 'contractName'
+    title: '操作',
+    dataIndex: 'action',
+    width: '150px',
+    scopedSlots: { customRender: 'action' }
+  }
+]
+
+const productColumns2 = [
+  {
+    title: '#',
+    scopedSlots: { customRender: 'serial' }
+  },
+  {
+    title: '名称',
+    dataIndex: 'productName'
+  },
+  {
+    title: '品牌',
+    dataIndex: 'brand'
+  },
+  {
+    title: '参数',
+    dataIndex: 'options'
+  },
+  {
+    title: '单位',
+    dataIndex: 'unit'
+  },
+  {
+    title: '数量',
+    dataIndex: 'count'
+  },
+  {
+    title: '单价',
+    dataIndex: 'price'
   },
   {
     title: '备注',
@@ -573,7 +660,15 @@ const contractColumns = [
     scopedSlots: { customRender: 'serial' }
   },
   {
+    title: '签订日期',
+    dataIndex: 'taskName'
+  },
+  {
     title: '合同名称',
+    dataIndex: 'taskName'
+  },
+  {
+    title: '总金额',
     dataIndex: 'taskName'
   },
   {
@@ -581,6 +676,58 @@ const contractColumns = [
     dataIndex: 'action',
     width: '150px',
     scopedSlots: { customRender: 'action' }
+  }
+]
+
+const supplierContractColumns = [
+  {
+    title: '#',
+    scopedSlots: { customRender: 'serial' }
+  },
+  {
+    title: '签订日期',
+    dataIndex: 'taskName'
+  },
+  {
+    title: '合同名称',
+    dataIndex: 'taskName'
+  },
+  {
+    title: '总金额',
+    dataIndex: 'taskName'
+  },
+  {
+    title: '供货方',
+    dataIndex: 'taskName'
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    width: '150px',
+    scopedSlots: { customRender: 'action' }
+  }
+]
+
+const barData = [
+  {
+    x: '初始',
+    y: '0'
+  },
+  {
+    x: '项目清单',
+    y: '3333'
+  },
+  {
+    x: '计划清单',
+    y: '2000'
+  },
+  {
+    x: '采购清单',
+    y: '6654'
+  },
+  {
+    x: '交付清单',
+    y: '8854'
   }
 ]
 
@@ -593,7 +740,8 @@ export default {
     StepByStepModal,
     MemberForm,
     ProductForm,
-    TaskForm
+    TaskForm,
+    Bar
   },
   data () {
     this.productColumns = productColumns
@@ -601,6 +749,8 @@ export default {
     this.taskColumns = taskColumns
     this.fileColumns = fileColumns
     this.contractColumns = contractColumns
+    this.supplierContractColumns = supplierContractColumns
+    this.productColumns2 = productColumns2
     return {
       // create model
       visible: false,
@@ -746,7 +896,8 @@ export default {
           title: '系统开发',
           content: '由xxx同事作为项目经理，负责xxx系统的研发。'
         }
-      ]
+      ],
+      barData
     }
   },
   created () {
@@ -1027,5 +1178,50 @@ export default {
 
 .steps-action {
   margin-top: 24px;
+}
+</style>
+
+<style lang="less" scoped>
+.extra-wrapper {
+  line-height: 55px;
+  padding-right: 24px;
+
+  .extra-item {
+    display: inline-block;
+    margin-right: 24px;
+
+    a {
+      margin-left: 24px;
+    }
+  }
+}
+
+.antd-pro-pages-dashboard-analysis-twoColLayout {
+  position: relative;
+  display: flex;
+  display: block;
+  flex-flow: row wrap;
+}
+
+.antd-pro-pages-dashboard-analysis-salesCard {
+  height: calc(100% - 24px);
+  /deep/ .ant-card-head {
+    position: relative;
+  }
+}
+
+.dashboard-analysis-iconGroup {
+  i {
+    margin-left: 16px;
+    color: rgba(0,0,0,.45);
+    cursor: pointer;
+    transition: color .32s;
+    color: black;
+  }
+}
+.analysis-salesTypeRadio {
+  position: absolute;
+  right: 54px;
+  bottom: 12px;
 }
 </style>

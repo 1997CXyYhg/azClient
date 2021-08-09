@@ -5,6 +5,11 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="5" :sm="10">
+              <a-form-item label="日期">
+                <a-range-picker />
+              </a-form-item>
+            </a-col>
+            <a-col :md="5" :sm="10">
               <a-form-item label="合同名称">
                 <a-input v-model="queryParam.staffName" placeholder=""/>
               </a-form-item>
