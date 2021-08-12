@@ -38,26 +38,26 @@
         </a-dropdown>
       </div>
       <div>
-          <s-table
-            ref="table"
-            size="default"
-            rowKey="key"
-            :columns="incomeExpensesColumns"
-            :data="loadData"
-            :alert="true"
-            :rowSelection="rowSelection"
-            showPagination="auto"
-          >
-      <span slot="serial" slot-scope="text, record, index">
-        {{ index + 1 }}
-      </span>
-            <span slot="action" slot-scope="text, record">
-        <template>
-          <a @click="handleEdit(record)" v-if="record.parentId">配置</a>
-          <a @click="handleEdit(record)" v-if="!record.parentId">新增实际收支</a>
-        </template>
-      </span>
-          </s-table>
+        <s-table
+          ref="table"
+          size="default"
+          :rowKey="(record) => record.id"
+          :columns="incomeExpensesColumns"
+          :data="loadData"
+          :alert="true"
+          :rowSelection="rowSelection"
+          showPagination="auto"
+        >
+          <span slot="serial" slot-scope="text, record, index">
+            {{ index + 1 }}
+          </span>
+          <span slot="action" slot-scope="text, record">
+            <template>
+              <a @click="handleEdit(record)" v-if="record.parentId">配置</a>
+              <a @click="handleEdit(record)" v-if="!record.parentId">新增实际收支</a>
+            </template>
+          </span>
+        </s-table>
       </div>
       <create-form
         ref="createModal"
@@ -99,11 +99,11 @@ const incomeExpensesColumns = [
   },
   {
     title: ' 我方经办人',
-    dataIndex: 'handler'
+    dataIndex: 'my_handler'
   },
   {
     title: ' 甲方经办人',
-    dataIndex: 'handler'
+    dataIndex: 'other_handler'
   },
   {
     title: '类型',
@@ -179,7 +179,7 @@ export default {
                       id: 2,
                       payMoment: '预付款',
                       amount: '30000',
-                      handler: '张三',
+                      my_handler: '张三',
                       type: '实际',
                       bankName: '中国银行',
                       bandAccountName: '张三',
@@ -192,7 +192,7 @@ export default {
                       id: 3,
                       payMoment: '预付款',
                       amount: '20000',
-                      handler: '张三',
+                      my_handler: '张三',
                       type: '实际',
                       bankName: '中国银行',
                       bandAccountName: '张三',
@@ -207,7 +207,7 @@ export default {
                   id: 4,
                   payMoment: '设备款',
                   amount: '50000',
-                  handler: '',
+                  my_handler: '',
                   type: '计划',
                   bankName: '',
                   bandAccountName: '',
@@ -219,7 +219,7 @@ export default {
                       id: 5,
                       payMoment: '设备款',
                       amount: '30000',
-                      handler: '张三',
+                      my_handler: '张三',
                       type: '实际',
                       bankName: '中国银行',
                       bandAccountName: '张三',
@@ -232,7 +232,7 @@ export default {
                       id: 6,
                       payMoment: '设备款',
                       amount: '20000',
-                      handler: '张三',
+                      my_handler: '张三',
                       type: '实际',
                       bankName: '中国银行',
                       bandAccountName: '张三',

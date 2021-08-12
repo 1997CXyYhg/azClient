@@ -1,16 +1,27 @@
 <template>
   <page-header-wrapper>
-    <a-card :bordered="false" title="权限配置">
+    <a-card
+      :bordered="false"
+      title="权限配置">
       <a-row :gutter="24">
         <a-col :md="12">
           <a-card title="角色">
             <div class="table-operator">
-              <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
+              <a-button
+                type="primary"
+                icon="plus"
+                @click="handleAdd">新建</a-button>
             </div>
-            <a-list item-layout="horizontal" :data-source="data">
-              <a-list-item slot="renderItem" slot-scope="item">
+            <a-list
+              item-layout="horizontal"
+              :data-source="data">
+              <a-list-item
+                slot="renderItem"
+                slot-scope="item">
                 <a-list-item-meta>
-                  <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
+                  <a
+                    slot="title"
+                    href="https://www.antdv.com/">{{ item.title }}</a>
                 </a-list-item-meta>
               </a-list-item>
             </a-list>
@@ -19,7 +30,10 @@
         <a-col :md="12">
           <a-card title="权限">
             <div class="table-operator">
-              <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
+              <a-button
+                type="primary"
+                icon="plus"
+                @click="handleAdd">新建</a-button>
             </div>
             <a-tree
               v-model="checkedKeys"
@@ -27,8 +41,7 @@
               :expanded-keys="expandedKeys"
               :auto-expand-parent="autoExpandParent"
               :selected-keys="selectedKeys"
-              :tree-data="treeData"
-            />
+              :tree-data="treeData" />
           </a-card>
         </a-col>
       </a-row>
@@ -102,14 +115,14 @@ const treeData = [
   },
   {
     title: '客户管理',
-    key: '0-0',
+    key: '0-1',
     children: [
       {
         title: '客户信息',
-        key: '0-0-0',
+        key: '0-1-0',
         children: [
-          { title: '新增', key: '0-0-0-0' },
-          { title: '删除', key: '0-0-0-1' }
+          { title: '新增', key: '0-1-0-0' },
+          { title: '删除', key: '0-1-0-1' }
         ]
       }
     ]
@@ -144,7 +157,7 @@ export default {
     this.treeData = treeData
     this.data = data
     return {
-      expandedKeys: ['0-0-0', '0-0-1'],
+      expandedKeys: ['0-0-0', '0-0-1', '0-1-0'],
       autoExpandParent: true,
       checkedKeys: ['0-0-0'],
       selectedKeys: [],
@@ -160,10 +173,10 @@ export default {
       loadData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
-          .then(res => {
-            return {
-              data: [{
+        return getServiceList(requestParameters).then(res => {
+          return {
+            data: [
+              {
                 id: 1,
                 createDate: '2020-10-01',
                 roleName: '张三',
@@ -185,56 +198,57 @@ export default {
                 hobbies: '',
                 note: ''
               },
-                {
-                  id: 2,
-                  entryDate: '2020-10-01',
-                  staffName: '李四',
-                  sex: '男',
-                  department: '研发部',
-                  jobs: '工程师',
-                  IDCard: '330382199701100337',
-                  birthDate: '1997-01-01',
-                  departureDate: '',
-                  emergencyContact: '李四',
-                  emergencyContactPhone: '19967323015',
-                  contactWay: '17705266804',
-                  spouseName: '无',
-                  spouseContactWay: '',
-                  fatherName: '',
-                  fatherNameContactWay: '',
-                  motherName: '',
-                  motherContactWay: '',
-                  hobbies: '',
-                  note: ''
-                },
-                {
-                  id: 3,
-                  entryDate: '2020-10-01',
-                  staffName: '王五',
-                  sex: '男',
-                  department: '研发部',
-                  jobs: '工程师',
-                  IDCard: '330382199701100337',
-                  birthDate: '1997-01-01',
-                  departureDate: '',
-                  emergencyContact: '李四',
-                  emergencyContactPhone: '19967323015',
-                  contactWay: '17705266804',
-                  spouseName: '无',
-                  spouseContactWay: '',
-                  fatherName: '',
-                  fatherNameContactWay: '',
-                  motherName: '',
-                  motherContactWay: '',
-                  hobbies: '',
-                  note: ''
-                }],
-              pageNo: 1,
-              pageSize: 10,
-              totalCount: 10,
-              totalPage: 1
-            }
-          })
+              {
+                id: 2,
+                entryDate: '2020-10-01',
+                staffName: '李四',
+                sex: '男',
+                department: '研发部',
+                jobs: '工程师',
+                IDCard: '330382199701100337',
+                birthDate: '1997-01-01',
+                departureDate: '',
+                emergencyContact: '李四',
+                emergencyContactPhone: '19967323015',
+                contactWay: '17705266804',
+                spouseName: '无',
+                spouseContactWay: '',
+                fatherName: '',
+                fatherNameContactWay: '',
+                motherName: '',
+                motherContactWay: '',
+                hobbies: '',
+                note: ''
+              },
+              {
+                id: 3,
+                entryDate: '2020-10-01',
+                staffName: '王五',
+                sex: '男',
+                department: '研发部',
+                jobs: '工程师',
+                IDCard: '330382199701100337',
+                birthDate: '1997-01-01',
+                departureDate: '',
+                emergencyContact: '李四',
+                emergencyContactPhone: '19967323015',
+                contactWay: '17705266804',
+                spouseName: '无',
+                spouseContactWay: '',
+                fatherName: '',
+                fatherNameContactWay: '',
+                motherName: '',
+                motherContactWay: '',
+                hobbies: '',
+                note: ''
+              }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 10,
+            totalPage: 1
+          }
+        })
       },
       staffInfo: {},
       selectedRowKeys: [],
@@ -346,7 +360,7 @@ export default {
           'background-color': record.id === this.physicalSurveyCurrRowId ? '#1890FF' : 'white'
         },
         on: {
-          click: (event) => {
+          click: event => {
             this.physicalSurveyCurrRowId = record.id
             this.staffInfo = record
           }
