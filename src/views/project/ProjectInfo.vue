@@ -1,36 +1,43 @@
 <template>
   <page-header-wrapper>
-    <a-card :bordered="false" title="详情">
+    <a-card
+      :bordered="false"
+      title="详情">
       <div class="table-page-search-wrapper">
         <a-descriptions>
           <a-descriptions-item label="创建时间">
-            {{projectInfo.createDate}}
+            {{ projectInfo.createDate }}
           </a-descriptions-item>
           <a-descriptions-item label="项目名称">
-            {{projectInfo.projectName}}
+            {{ projectInfo.projectName }}
           </a-descriptions-item>
           <a-descriptions-item label="项目类型">
-            {{projectInfo.projectType }}
+            {{ projectInfo.projectType }}
           </a-descriptions-item>
           <a-descriptions-item label="计划交付时间">
-            {{projectInfo.completeDate}}
+            {{ projectInfo.completeDate }}
           </a-descriptions-item>
           <a-descriptions-item label="负责人">
-            {{projectInfo.staff}}
+            {{ projectInfo.staff }}
           </a-descriptions-item>
           <a-descriptions-item label="客户">
-            {{projectInfo.customer}}
+            {{ projectInfo.customer }}
           </a-descriptions-item>
         </a-descriptions>
       </div>
     </a-card>
-    <a-card :bordered="false" title="合同详情">
+    <a-card
+      :bordered="false"
+      title="合同详情">
       <a-row :gutter="24">
         <a-col :md="10">
           <div class="table-operator">
             <span style="margin-right: 20px">项目合同</span>
-            <a-button type="primary" icon="plus" @click="memberAdd">新增</a-button>
-        </div>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="memberAdd">新增</a-button>
+          </div>
           <div>
             <s-table
               ref="teamTable"
@@ -38,16 +45,19 @@
               rowKey="key"
               :columns="contractColumns"
               :data="teamData"
-              :alert="true"
-            >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-              <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="memberEdit(record)">移除</a>
-          </template>
-        </span>
+              :alert="true">
+              <span
+                slot="serial"
+                slot-scope="text, record, index">
+                {{ index + 1 }}
+              </span>
+              <span
+                slot="action"
+                slot-scope="text, record">
+                <template>
+                  <a @click="memberEdit(record)">移除</a>
+                </template>
+              </span>
             </s-table>
           </div>
           <member-form
@@ -56,12 +66,15 @@
             :loading="memberFormConfirmLoading"
             :model="memberFormMdl"
             @cancel="memberCancel"
-            @ok="memberOk"
-          /></a-col>
+            @ok="memberOk" />
+        </a-col>
         <a-col :md="14">
           <div class="table-operator">
             <span style="margin-right: 20px">采购合同</span>
-            <a-button type="primary" icon="plus" @click="memberAdd">新增</a-button>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="memberAdd">新增</a-button>
           </div>
           <div>
             <s-table
@@ -70,16 +83,19 @@
               rowKey="key"
               :columns="supplierContractColumns"
               :data="teamData"
-              :alert="true"
-            >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-              <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="memberEdit(record)">移除</a>
-          </template>
-        </span>
+              :alert="true">
+              <span
+                slot="serial"
+                slot-scope="text, record, index">
+                {{ index + 1 }}
+              </span>
+              <span
+                slot="action"
+                slot-scope="text, record">
+                <template>
+                  <a @click="memberEdit(record)">移除</a>
+                </template>
+              </span>
             </s-table>
           </div>
           <member-form
@@ -88,12 +104,13 @@
             :loading="memberFormConfirmLoading"
             :model="memberFormMdl"
             @cancel="memberCancel"
-            @ok="memberOk"
-          />
+            @ok="memberOk" />
         </a-col>
       </a-row>
     </a-card>
-    <a-card :bordered="false" title="项目进度">
+    <a-card
+      :bordered="false"
+      title="项目进度">
       <div>
         <div>
           <span style="float: left">2021-01-01</span>
@@ -103,22 +120,28 @@
         <a-divider />
         <div>
           <a-row :gutter="24">
-              <a-col :md="2">
-                <span style="line-height: 32px">签订合同:</span>
-              </a-col>
-              <a-col :md="22">
-                <a-steps :current="current">
-                  <a-step v-for="item in steps" :key="item.title" :title="item.title" />
-                </a-steps>
-              </a-col>
-            </a-row>
+            <a-col :md="2">
+              <span style="line-height: 32px">签订合同:</span>
+            </a-col>
+            <a-col :md="22">
+              <a-steps :current="current">
+                <a-step
+                  v-for="item in steps"
+                  :key="item.title"
+                  :title="item.title" />
+              </a-steps>
+            </a-col>
+          </a-row>
           <a-row :gutter="[30,30]">
             <a-col :md="2">
               <span style="line-height: 32px">设备采购:</span>
             </a-col>
             <a-col :md="22">
               <a-steps :current="current">
-                <a-step v-for="item in steps" :key="item.title" :title="item.title" />
+                <a-step
+                  v-for="item in steps"
+                  :key="item.title"
+                  :title="item.title" />
               </a-steps>
             </a-col>
           </a-row>
@@ -128,16 +151,24 @@
             </a-col>
             <a-col :md="22">
               <a-steps :current="current">
-                <a-step v-for="item in steps" :key="item.title" :title="item.title" />
+                <a-step
+                  v-for="item in steps"
+                  :key="item.title"
+                  :title="item.title" />
               </a-steps>
             </a-col>
           </a-row>
         </div>
       </div>
     </a-card>
-    <a-card :bordered="false" title="团队成员">
+    <a-card
+      :bordered="false"
+      title="团队成员">
       <div class="table-operator">
-        <a-button type="primary" icon="plus" @click="memberAdd">新增</a-button>
+        <a-button
+          type="primary"
+          icon="plus"
+          @click="memberAdd">新增</a-button>
       </div>
       <div>
         <s-table
@@ -146,18 +177,21 @@
           rowKey="key"
           :columns="teamColumns"
           :data="teamData"
-          :alert="true"
-        >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-          <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="memberEdit(record)">编辑</a>
-            <a-divider type="vertical" />
-            <a @click="memberEdit(record)">移除</a>
-          </template>
-        </span>
+          :alert="true">
+          <span
+            slot="serial"
+            slot-scope="text, record, index">
+            {{ index + 1 }}
+          </span>
+          <span
+            slot="action"
+            slot-scope="text, record">
+            <template>
+              <a @click="memberEdit(record)">编辑</a>
+              <a-divider type="vertical" />
+              <a @click="memberEdit(record)">移除</a>
+            </template>
+          </span>
         </s-table>
       </div>
       <create-form
@@ -166,111 +200,34 @@
         :loading="confirmLoading"
         :model="mdl"
         @cancel="handleCancel"
-        @ok="handleOk"
-      />
+        @ok="handleOk" />
       <member-form
         ref="memberModal"
         :visible="memberFormVisible"
         :loading="memberFormConfirmLoading"
         :model="memberFormMdl"
         @cancel="memberCancel"
-        @ok="memberOk"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
+        @ok="memberOk" />
+      <step-by-step-modal
+        ref="modal"
+        @ok="handleOk" />
     </a-card>
-    <a-card :bordered="false" title="采购清单">
+    <a-card
+      :bordered="false"
+      title="采购清单">
       <a-row :gutter="[30, 30]">
         <a-col :md="12">
           <bar :data="barData" />
         </a-col>
       </a-row>
-      <a-row :gutter="[30, 30]" >
-        <a-col :md="12">
-          <div class="table-operator">
-            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">项目合同清单</span>
-            <a-button type="primary" icon="plus" @click="productAdd">新建</a-button>
-            <span style="margin-right: 30px;font-size: 18px; font-weight: bold; float: right">总金额: 4999</span>
-            <span style="clear: both"></span>
-          </div>
-          <div>
-            <s-table
-              ref="productTable"
-              size="default"
-              rowKey="key"
-              :columns="productColumns2"
-              :data="loadData"
-              :alert="true"
-              :rowSelection="rowSelection"
-              showPagination="auto"
-            >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-              <span slot="action" slot-scope="text, record">
-          <template>
-            <a-popover>
-              <template slot="content">
-                <p>合同名称: xxx合同</p>
-                <p>合同总金额: 20000</p>
-              </template>
-              <a @click="handleInfo(record)">合同</a>
-            </a-popover>
-          </template>
-        </span>
-            </s-table>
-          </div>
-          <product-form
-            ref="productModal"
-            :visible="productFormVisible"
-            :loading="productFormConfirmLoading"
-            :model="productFormMdl"
-            @cancel="productCancel"
-            @ok="productOk"
-          /></a-col>
-        <a-col :md="12">
-          <div class="table-operator">
-            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">计划采购清单</span>
-            <a-button type="primary" icon="plus" @click="productAdd">新建</a-button>
-            <span style="margin-right: 30px;font-size: 18px; font-weight: bold; float: right">总金额: 4999</span>
-            <span style="clear: both"></span>
-        </div>
-          <div>
-            <s-table
-              ref="productTable"
-              size="default"
-              rowKey="key"
-              :columns="productColumns2"
-              :data="loadData"
-              :alert="true"
-              :rowSelection="rowSelection"
-              showPagination="auto"
-            >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-              <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="productEdit(record)">配置</a>
-             <a-divider type="vertical" />
-            <a @click="handleEdit(record)">移除</a>
-          </template>
-        </span>
-            </s-table>
-          </div>
-          <product-form
-            ref="productModal"
-            :visible="productFormVisible"
-            :loading="productFormConfirmLoading"
-            :model="productFormMdl"
-            @cancel="productCancel"
-            @ok="productOk"
-          /></a-col>
-      </a-row>
       <a-row :gutter="[30, 30]">
         <a-col :md="12">
           <div class="table-operator">
-            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">采购清单</span>
-            <a-button type="primary" icon="plus" @click="productAdd">新建</a-button>
+            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">项目合同清单</span>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="productAdd">新建</a-button>
             <span style="margin-right: 30px;font-size: 18px; font-weight: bold; float: right">总金额: 4999</span>
             <span style="clear: both"></span>
           </div>
@@ -279,16 +236,19 @@
               ref="productTable"
               size="default"
               rowKey="key"
-              :columns="productColumns"
+              :columns="productColumns2"
               :data="loadData"
               :alert="true"
               :rowSelection="rowSelection"
-              showPagination="auto"
-            >
-              <span slot="serial" slot-scope="text, record, index">
+              showPagination="auto">
+              <span
+                slot="serial"
+                slot-scope="text, record, index">
                 {{ index + 1 }}
               </span>
-              <span slot="action" slot-scope="text, record">
+              <span
+                slot="action"
+                slot-scope="text, record">
                 <template>
                   <a-popover>
                     <template slot="content">
@@ -307,12 +267,15 @@
             :loading="productFormConfirmLoading"
             :model="productFormMdl"
             @cancel="productCancel"
-            @ok="productOk"
-          /></a-col>
+            @ok="productOk" />
+        </a-col>
         <a-col :md="12">
           <div class="table-operator">
-            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">交付清单</span>
-            <a-button type="primary" icon="plus" @click="productAdd">新建</a-button>
+            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">计划采购清单</span>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="productAdd">新建</a-button>
             <span style="margin-right: 30px;font-size: 18px; font-weight: bold; float: right">总金额: 4999</span>
             <span style="clear: both"></span>
           </div>
@@ -325,18 +288,21 @@
               :data="loadData"
               :alert="true"
               :rowSelection="rowSelection"
-              showPagination="auto"
-            >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-              <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="productEdit(record)">配置</a>
-             <a-divider type="vertical" />
-            <a @click="handleEdit(record)">移除</a>
-          </template>
-        </span>
+              showPagination="auto">
+              <span
+                slot="serial"
+                slot-scope="text, record, index">
+                {{ index + 1 }}
+              </span>
+              <span
+                slot="action"
+                slot-scope="text, record">
+                <template>
+                  <a @click="productEdit(record)">配置</a>
+                  <a-divider type="vertical" />
+                  <a @click="handleEdit(record)">移除</a>
+                </template>
+              </span>
             </s-table>
           </div>
           <product-form
@@ -345,15 +311,114 @@
             :loading="productFormConfirmLoading"
             :model="productFormMdl"
             @cancel="productCancel"
-            @ok="productOk"
-          /></a-col>
+            @ok="productOk" />
+        </a-col>
+      </a-row>
+      <a-row :gutter="[30, 30]">
+        <a-col :md="12">
+          <div class="table-operator">
+            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">采购清单</span>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="productAdd">新建</a-button>
+            <span style="margin-right: 30px;font-size: 18px; font-weight: bold; float: right">总金额: 4999</span>
+            <span style="clear: both"></span>
+          </div>
+          <div>
+            <s-table
+              ref="productTable"
+              size="default"
+              rowKey="key"
+              :columns="productColumns"
+              :data="loadData"
+              :alert="true"
+              :rowSelection="rowSelection"
+              showPagination="auto">
+              <span
+                slot="serial"
+                slot-scope="text, record, index">
+                {{ index + 1 }}
+              </span>
+              <span
+                slot="action"
+                slot-scope="text, record">
+                <template>
+                  <a-popover>
+                    <template slot="content">
+                      <p>合同名称: xxx合同</p>
+                      <p>合同总金额: 20000</p>
+                    </template>
+                    <a @click="handleInfo(record)">合同</a>
+                  </a-popover>
+                </template>
+              </span>
+            </s-table>
+          </div>
+          <product-form
+            ref="productModal"
+            :visible="productFormVisible"
+            :loading="productFormConfirmLoading"
+            :model="productFormMdl"
+            @cancel="productCancel"
+            @ok="productOk" />
+        </a-col>
+        <a-col :md="12">
+          <div class="table-operator">
+            <span style="margin-right: 30px;font-size: 18px; font-weight: bold">交付清单</span>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="productAdd">新建</a-button>
+            <span style="margin-right: 30px;font-size: 18px; font-weight: bold; float: right">总金额: 4999</span>
+            <span style="clear: both"></span>
+          </div>
+          <div>
+            <s-table
+              ref="productTable"
+              size="default"
+              rowKey="key"
+              :columns="productColumns2"
+              :data="loadData"
+              :alert="true"
+              :rowSelection="rowSelection"
+              showPagination="auto">
+              <span
+                slot="serial"
+                slot-scope="text, record, index">
+                {{ index + 1 }}
+              </span>
+              <span
+                slot="action"
+                slot-scope="text, record">
+                <template>
+                  <a @click="productEdit(record)">配置</a>
+                  <a-divider type="vertical" />
+                  <a @click="handleEdit(record)">移除</a>
+                </template>
+              </span>
+            </s-table>
+          </div>
+          <product-form
+            ref="productModal"
+            :visible="productFormVisible"
+            :loading="productFormConfirmLoading"
+            :model="productFormMdl"
+            @cancel="productCancel"
+            @ok="productOk" />
+        </a-col>
       </a-row>
     </a-card>
-    <a-card :bordered="false" title="任务管理">
+    <a-card
+      :bordered="false"
+      title="任务管理">
       <div class="table-operator">
         <a-row :gutter="24">
           <a-col :md="8">
-            <a-button type="primary" icon="plus" @click="taskAdd">新建</a-button>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="taskAdd">新建</a-button>
           </a-col>
         </a-row>
       </div>
@@ -368,12 +433,15 @@
               :data="taskData"
               :alert="true"
               :rowSelection="rowSelection"
-              showPagination="auto"
-            >
-              <span slot="serial" slot-scope="text, record, index">
+              showPagination="auto">
+              <span
+                slot="serial"
+                slot-scope="text, record, index">
                 {{ index + 1 }}
               </span>
-              <span slot="action" slot-scope="text, record">
+              <span
+                slot="action"
+                slot-scope="text, record">
                 <template>
                   <a @click="taskAdd(record)">新建子任务</a>
                   <a-divider type="vertical" />
@@ -387,42 +455,44 @@
             </s-table>
           </a-col>
           <a-col :md="6">
-            <a-descriptions title="任务详情" :column="2">
+            <a-descriptions
+              title="任务详情"
+              :column="2">
               <a-descriptions-item label="任务名称">
                 {{ staffInfo.entryDate }}
               </a-descriptions-item>
               <a-descriptions-item label="任务目标">
-                {{staffInfo.staffName }}
+                {{ staffInfo.staffName }}
               </a-descriptions-item>
               <a-descriptions-item label="指标">
-                {{staffInfo.sex}}
+                {{ staffInfo.sex }}
               </a-descriptions-item>
               <a-descriptions-item label="开始日期">
-                {{staffInfo.department}}
+                {{ staffInfo.department }}
               </a-descriptions-item>
               <a-descriptions-item label="计划交付日期">
-                {{staffInfo.jobs}}
+                {{ staffInfo.jobs }}
               </a-descriptions-item>
               <a-descriptions-item label="实际完成日期">
-                {{staffInfo.contactWay}}
+                {{ staffInfo.contactWay }}
               </a-descriptions-item>
               <a-descriptions-item label="任务所处于节点">
-                {{staffInfo.IDCard}}
+                {{ staffInfo.IDCard }}
               </a-descriptions-item>
               <a-descriptions-item label="执行人员">
-                {{staffInfo.birthDate}}
+                {{ staffInfo.birthDate }}
               </a-descriptions-item>
               <a-descriptions-item label="任务类型">
-                {{staffInfo.emergencyContact}}
+                {{ staffInfo.emergencyContact }}
               </a-descriptions-item>
               <a-descriptions-item label="状态">
-                {{staffInfo.emergencyContactWay}}
+                {{ staffInfo.emergencyContactWay }}
               </a-descriptions-item>
               <a-descriptions-item label="完成质量">
-                {{staffInfo.spouseName}}
+                {{ staffInfo.spouseName }}
               </a-descriptions-item>
               <a-descriptions-item label="备注">
-                {{staffInfo.spouseContactWay}}
+                {{ staffInfo.spouseContactWay }}
               </a-descriptions-item>
             </a-descriptions>
           </a-col>
@@ -433,11 +503,12 @@
               rowKey="key"
               :columns="fileColumns"
               :data="teamData"
-              :alert="true"
-            >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
+              :alert="true">
+              <span
+                slot="serial"
+                slot-scope="text, record, index">
+                {{ index + 1 }}
+              </span>
             </s-table>
           </a-col>
         </a-row>
@@ -448,31 +519,38 @@
         :loading="taskFormConfirmLoading"
         :model="taskFormMdl"
         @cancel="taskCancel"
-        @ok="taskOk"
-      />
+        @ok="taskOk" />
       <div>
         <div style="margin-top: 10px;margin-bottom: 10px">
           <span style="font-weight: bold;font-size: 16px;">任务进度</span>
         </div>
         <div>
           <a-steps :current="current">
-            <a-step v-for="item in steps" :key="item.title" :title="item.title" />
+            <a-step
+              v-for="item in steps"
+              :key="item.title"
+              :title="item.title" />
           </a-steps>
           <div class="steps-content">
             {{ steps[current].content }}
           </div>
           <div class="steps-action">
-            <a-button v-if="current < steps.length - 1" type="primary" @click="next">
+            <a-button
+              v-if="current < steps.length - 1"
+              type="primary"
+              @click="next">
               Next
             </a-button>
             <a-button
               v-if="current == steps.length - 1"
               type="primary"
-              @click="$message.success('Processing complete!')"
-            >
+              @click="$message.success('Processing complete!')">
               Done
             </a-button>
-            <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
+            <a-button
+              v-if="current > 0"
+              style="margin-left: 8px"
+              @click="prev">
               Previous
             </a-button>
           </div>
@@ -774,10 +852,10 @@ export default {
       loadData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
-          .then(res => {
-            return {
-              data: [{
+        return getServiceList(requestParameters).then(res => {
+          return {
+            data: [
+              {
                 id: 1,
                 productName: '笔记本电脑',
                 brand: '联想',
@@ -789,94 +867,103 @@ export default {
                 type: '预算',
                 note: ''
               },
-                {
-                  id: 1,
-                  productName: '笔记本电脑',
-                  brand: '联想',
-                  options: '',
-                  unit: '台',
-                  count: '1',
-                  price: '4500',
-                  supplier: '联想',
-                  type: '实际',
-                  contractName: '合同1',
-                  note: ''
-                }],
-              pageNo: 1,
-              pageSize: 10,
-              totalCount: 10,
-              totalPage: 1
-            }
-          })
+              {
+                id: 1,
+                productName: '笔记本电脑',
+                brand: '联想',
+                options: '',
+                unit: '台',
+                count: '1',
+                price: '4500',
+                supplier: '联想',
+                type: '实际',
+                contractName: '合同1',
+                note: ''
+              }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 10,
+            totalPage: 1
+          }
+        })
       },
       teamData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
-          .then(res => {
-            return {
-              data: [{
+        return getServiceList(requestParameters).then(res => {
+          return {
+            data: [
+              {
                 id: 1,
                 staffName: '张三',
                 sex: '男',
                 jobs: '工程师',
                 projectDuty: '项目经理'
-              }],
-              pageNo: 1,
-              pageSize: 10,
-              totalCount: 10,
-              totalPage: 1
-            }
-          })
+              }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 10,
+            totalPage: 1
+          }
+        })
       },
       taskData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
-          .then(res => {
-            return {
-              data: [{
+        return getServiceList(requestParameters).then(res => {
+          return {
+            data: [
+              {
                 id: 1,
                 taskName: '签订合同',
                 status: '进行中',
                 completeQuality: '',
-                children: [{
-                  id: 2,
-                  taskName: '协商合同细节',
-                  status: '进行中',
-                  completeQuality: ''
-                }]
+                children: [
+                  {
+                    id: 2,
+                    taskName: '协商合同细节',
+                    status: '进行中',
+                    completeQuality: ''
+                  }
+                ]
               },
               {
                 id: 3,
-                  taskName: '设备采购',
+                taskName: '设备采购',
                 status: '进行中',
                 completeQuality: '',
-                children: [{
-                id: 4,
-                taskName: '供应商协商',
-                status: '进行中',
-                completeQuality: ''
-              }]
+                children: [
+                  {
+                    id: 4,
+                    taskName: '供应商协商',
+                    status: '进行中',
+                    completeQuality: ''
+                  }
+                ]
               },
-                {
-                  id: 5,
-                  taskName: '系统研发',
-                  status: '进行中',
-                  completeQuality: '',
-                  children: [{
+              {
+                id: 5,
+                taskName: '系统研发',
+                status: '进行中',
+                completeQuality: '',
+                children: [
+                  {
                     id: 6,
                     taskName: '系统原型设计',
                     status: '进行中',
                     completeQuality: ''
-                  }]
-                }],
-              pageNo: 1,
-              pageSize: 10,
-              totalCount: 10,
-              totalPage: 1
-            }
-          })
+                  }
+                ]
+              }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 10,
+            totalPage: 1
+          }
+        })
       },
       staffInfo: {},
       selectedRowKeys: [],
@@ -1213,9 +1300,9 @@ export default {
 .dashboard-analysis-iconGroup {
   i {
     margin-left: 16px;
-    color: rgba(0,0,0,.45);
+    color: rgba(0, 0, 0, 0.45);
     cursor: pointer;
-    transition: color .32s;
+    transition: color 0.32s;
     color: black;
   }
 }

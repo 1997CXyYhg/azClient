@@ -4,33 +4,58 @@
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-            <a-col :md="5" :sm="10">
+            <a-col
+              :md="5"
+              :sm="10">
               <a-form-item label="项目名称">
-                <a-input v-model="queryParam.staffName" placeholder=""/>
+                <a-input
+                  v-model="queryParam.staffName"
+                  placeholder="" />
               </a-form-item>
             </a-col>
-            <a-col :md="5" :sm="10">
+            <a-col
+              :md="5"
+              :sm="10">
               <a-form-item label="项目类型">
-                <a-select v-model="queryParam.department" placeholder="请选择" default-value="0">
+                <a-select
+                  v-model="queryParam.department"
+                  placeholder="请选择"
+                  default-value="0">
                   <a-select-option value="0">多媒体项目</a-select-option>
                   <a-select-option value="1">研发项目</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :md="5" :sm="10">
+            <a-col
+              :md="5"
+              :sm="10">
               <a-form-item label="负责人">
-                <a-input v-model="queryParam.jobs" placeholder=""/>
+                <a-input
+                  v-model="queryParam.jobs"
+                  placeholder="" />
               </a-form-item>
             </a-col>
-            <a-col :md="5" :sm="10">
+            <a-col
+              :md="5"
+              :sm="10">
               <a-form-item label="客户">
-                <a-input v-model="queryParam.jobs" placeholder=""/>
+                <a-input
+                  v-model="queryParam.jobs"
+                  placeholder="" />
               </a-form-item>
             </a-col>
-            <a-col :md="4" :sm="10">
-              <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
-                <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-                <a-button style="margin-left: 8px" @click="() => this.queryParam = {}">重置</a-button>
+            <a-col
+              :md="4"
+              :sm="10">
+              <span
+                class="table-page-search-submitButtons"
+                :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+                <a-button
+                  type="primary"
+                  @click="$refs.table.refresh(true)">查询</a-button>
+                <a-button
+                  style="margin-left: 8px"
+                  @click="() => this.queryParam = {}">重置</a-button>
               </span>
             </a-col>
           </a-row>
@@ -38,15 +63,23 @@
       </div>
 
       <div class="table-operator">
-        <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
-        <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
+        <a-button
+          type="primary"
+          icon="plus"
+          @click="handleAdd">新建</a-button>
+        <a-dropdown
+          v-action:edit
+          v-if="selectedRowKeys.length > 0">
           <a-menu slot="overlay">
-            <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
+            <a-menu-item key="1">
+              <a-icon type="delete" />删除</a-menu-item>
             <!-- lock | unlock -->
-            <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
+            <a-menu-item key="2">
+              <a-icon type="lock" />锁定</a-menu-item>
           </a-menu>
           <a-button style="margin-left: 8px">
-            批量操作 <a-icon type="down" />
+            批量操作
+            <a-icon type="down" />
           </a-button>
         </a-dropdown>
       </div>
@@ -59,24 +92,35 @@
           :data="loadData"
           :alert="true"
           :rowSelection="rowSelection"
-          showPagination="auto"
-        >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-              <span slot="status" slot-scope="text">
-          <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
-        </span>
-              <span slot="description" slot-scope="text">
-          <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
-        </span>
-          <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="handleEdit(record)">配置</a>
-             <a-divider type="vertical" />
-            <a @click="handleInfo(record)">详情</a>
-          </template>
-        </span>
+          showPagination="auto">
+          <span
+            slot="serial"
+            slot-scope="text, record, index">
+            {{ index + 1 }}
+          </span>
+          <span
+            slot="status"
+            slot-scope="text">
+            <a-badge
+              :status="text | statusTypeFilter"
+              :text="text | statusFilter" />
+          </span>
+          <span
+            slot="description"
+            slot-scope="text">
+            <ellipsis
+              :length="4"
+              tooltip>{{ text }}</ellipsis>
+          </span>
+          <span
+            slot="action"
+            slot-scope="text, record">
+            <template>
+              <a @click="handleEdit(record)">配置</a>
+              <a-divider type="vertical" />
+              <a @click="handleInfo(record)">详情</a>
+            </template>
+          </span>
         </s-table>
       </div>
       <create-form
@@ -85,9 +129,10 @@
         :loading="confirmLoading"
         :model="mdl"
         @cancel="handleCancel"
-        @ok="handleOk"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
+        @ok="handleOk" />
+      <step-by-step-modal
+        ref="modal"
+        @ok="handleOk" />
     </a-card>
   </page-header-wrapper>
 </template>
@@ -179,10 +224,10 @@ export default {
       loadData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
-          .then(res => {
-            return {
-              data: [{
+        return getServiceList(requestParameters).then(res => {
+          return {
+            data: [
+              {
                 id: 1,
                 createDate: '2020-10-01',
                 projectName: '西安多媒体展厅',
@@ -190,13 +235,14 @@ export default {
                 completeDate: '2022-01-01',
                 staff: '张三',
                 customer: '西安xxx有限公司'
-              }],
-              pageNo: 1,
-              pageSize: 10,
-              totalCount: 10,
-              totalPage: 1
-            }
-          })
+              }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 10,
+            totalPage: 1
+          }
+        })
       },
       staffInfo: {},
       selectedRowKeys: [],

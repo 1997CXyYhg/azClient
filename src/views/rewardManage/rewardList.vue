@@ -123,7 +123,7 @@
             :md="8"
             :sm="24">
             <a-descriptions
-              title="员工信息"
+              title="奖惩信息"
               v-show="staffInfo !== {}">
               <a-descriptions-item label="入职日期">
                 {{ staffInfo.entryDate }}
@@ -211,25 +211,37 @@ const columns = [
     scopedSlots: { customRender: 'serial' }
   },
   {
-    title: '入职日期',
-    dataIndex: 'entryDate'
+    title: '员工',
+    dataIndex: 'staffName'
   },
   {
-    title: '姓名',
-    dataIndex: 'staffName',
+    title: '日期',
+    dataIndex: 'date',
     scopedSlots: { customRender: 'description' }
   },
   {
-    title: '部门',
-    dataIndex: 'department'
+    title: '事迹',
+    dataIndex: 'deed'
   },
   {
-    title: '岗位',
-    dataIndex: 'jobs'
+    title: '类型',
+    dataIndex: 'type'
   },
   {
-    title: '角色',
-    dataIndex: 'role'
+    title: '处理结果',
+    dataIndex: 'execResult'
+  },
+  {
+    title: '兑现日期',
+    dataIndex: 'execTime'
+  },
+  {
+    title: '信息展示有效期',
+    dataIndex: 'infoValidTime'
+  },
+  {
+    title: '状态',
+    dataIndex: 'status'
   },
   {
     title: '操作',

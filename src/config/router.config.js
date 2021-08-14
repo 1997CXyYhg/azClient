@@ -473,22 +473,6 @@ export const asyncRouterMap = [
           }
         ]
       },
-      {
-        path: '/rewardManage',
-        name: 'rewardManage',
-        component: RouteView,
-        redirect: '/rewardManage/incomeExpensesList',
-        meta: { title: '奖惩管理', icon: 'table' },
-        children: [
-          {
-            path: '/incomeExpenses/incomeExpensesList',
-            name: 'incomeExpensesList',
-            // hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/incomeExpenses/IncomeExpenses'),
-            meta: { title: '收支列表', keepAlive: true, permission: ['incomeExpenses'] }
-          }
-        ]
-      },
       // permission
       {
         path: '/permission',
@@ -519,6 +503,38 @@ export const asyncRouterMap = [
             // hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
             component: () => import('@/views/infoManage/InfoList'),
             meta: { title: '信息列表', keepAlive: true, permission: ['incomeExpenses'] }
+          }
+        ]
+      },
+      {
+        path: '/rewardManage',
+        name: 'rewardManage',
+        component: RouteView,
+        redirect: '/rewardManage/rewardList',
+        meta: { title: '奖惩管理', icon: 'table' },
+        children: [
+          {
+            path: '/rewardManage/rewardList',
+            name: 'rewardList',
+            // hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+            component: () => import('@/views/rewardManage/rewardList'),
+            meta: { title: '奖惩管理', keepAlive: true, permission: ['incomeExpenses'] }
+          }
+        ]
+      },
+      {
+        path: '/taskManage',
+        name: 'taskManage',
+        component: RouteView,
+        redirect: '/taskManage/taskList',
+        meta: { title: '任务管理', icon: 'table' },
+        children: [
+          {
+            path: '/taskManage/taskList',
+            name: 'taskList',
+            // hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+            component: () => import('@/views/taskManage/taskList'),
+            meta: { title: '任务管理', keepAlive: true, permission: ['incomeExpenses'] }
           }
         ]
       }
