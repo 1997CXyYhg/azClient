@@ -77,7 +77,7 @@
         <a-row :gutter="24">
           <a-col :span="12">
             <a-form-item label="完成质量">
-<!--              <a-input v-decorator="['projectType']" />-->
+              <!--              <a-input v-decorator="['projectType']" />-->
               <a-select v-decorator="['projectType']">
                 <a-select-option value="多媒体项目">
                   多媒体项目

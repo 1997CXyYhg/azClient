@@ -211,25 +211,33 @@ const columns = [
     scopedSlots: { customRender: 'serial' }
   },
   {
-    title: '入职日期',
+    title: '信息名称',
     dataIndex: 'entryDate'
   },
   {
-    title: '姓名',
+    title: '信息内容',
     dataIndex: 'staffName',
     scopedSlots: { customRender: 'description' }
   },
   {
-    title: '部门',
+    title: '有效日期',
     dataIndex: 'department'
   },
   {
-    title: '岗位',
+    title: '等级',
     dataIndex: 'jobs'
   },
   {
-    title: '角色',
-    dataIndex: 'role'
+    title: '创建日期',
+    dataIndex: 'createTime'
+  },
+  {
+    title: '发布人',
+    dataIndex: 'publisher'
+  },
+  {
+    title: '状态',
+    dataIndex: 'status'
   },
   {
     title: '操作',

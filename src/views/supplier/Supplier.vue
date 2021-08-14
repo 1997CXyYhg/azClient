@@ -4,25 +4,45 @@
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-            <a-col :md="5" :sm="16">
+            <a-col
+              :md="5"
+              :sm="16">
               <a-form-item label="公司名称">
-                <a-input v-model="queryParam.staffName" placeholder=""/>
+                <a-input
+                  v-model="queryParam.staffName"
+                  placeholder="" />
               </a-form-item>
             </a-col>
-            <a-col :md="5" :sm="16">
+            <a-col
+              :md="5"
+              :sm="16">
               <a-form-item label="经营范围">
-                <a-input v-model="queryParam.jobs" placeholder=""/>
+                <a-input
+                  v-model="queryParam.jobs"
+                  placeholder="" />
               </a-form-item>
             </a-col>
-            <a-col :md="5" :sm="16">
+            <a-col
+              :md="5"
+              :sm="16">
               <a-form-item label="产品标签">
-                <a-input v-model="queryParam.jobs" placeholder=""/>
+                <a-input
+                  v-model="queryParam.jobs"
+                  placeholder="" />
               </a-form-item>
             </a-col>
-            <a-col :md="!advanced && 8 || 24" :sm="24">
-              <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
-                <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-                <a-button style="margin-left: 8px" @click="() => this.queryParam = {}">重置</a-button>
+            <a-col
+              :md="!advanced && 8 || 24"
+              :sm="24">
+              <span
+                class="table-page-search-submitButtons"
+                :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+                <a-button
+                  type="primary"
+                  @click="$refs.table.refresh(true)">查询</a-button>
+                <a-button
+                  style="margin-left: 8px"
+                  @click="() => this.queryParam = {}">重置</a-button>
               </span>
             </a-col>
           </a-row>
@@ -30,51 +50,73 @@
       </div>
 
       <div class="table-operator">
-        <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
-        <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
+        <a-button
+          type="primary"
+          icon="plus"
+          @click="handleAdd">新建</a-button>
+        <a-dropdown
+          v-action:edit
+          v-if="selectedRowKeys.length > 0">
           <a-menu slot="overlay">
-            <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
+            <a-menu-item key="1">
+              <a-icon type="delete" />删除</a-menu-item>
             <!-- lock | unlock -->
-            <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
+            <a-menu-item key="2">
+              <a-icon type="lock" />锁定</a-menu-item>
           </a-menu>
           <a-button style="margin-left: 8px">
-            批量操作 <a-icon type="down" />
+            批量操作
+            <a-icon type="down" />
           </a-button>
         </a-dropdown>
       </div>
       <div>
         <s-table
-              ref="table"
-              size="default"
-              rowKey="key"
-              :columns="columns"
-              :data="loadData"
-              :alert="true"
-              :rowSelection="rowSelection"
-              showPagination="auto"
-              :customRow="tableCustomRow"
-            >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-              <span slot="status" slot-scope="text">
-          <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
-        </span>
-              <span slot="description" slot-scope="text">
-          <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
-        </span>
+          ref="table"
+          size="default"
+          rowKey="key"
+          :columns="columns"
+          :data="loadData"
+          :alert="true"
+          :rowSelection="rowSelection"
+          showPagination="auto"
+          :customRow="tableCustomRow">
+          <span
+            slot="serial"
+            slot-scope="text, record, index">
+            {{ index + 1 }}
+          </span>
+          <span
+            slot="status"
+            slot-scope="text">
+            <a-badge
+              :status="text | statusTypeFilter"
+              :text="text | statusFilter" />
+          </span>
+          <span
+            slot="description"
+            slot-scope="text">
+            <ellipsis
+              :length="4"
+              tooltip>{{ text }}</ellipsis>
+          </span>
 
-              <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="handleEdit(record)">配置</a>
-          </template>
-        </span>
-          </s-table>
+          <span
+            slot="action"
+            slot-scope="text, record">
+            <template>
+              <a @click="handleEdit(record)">配置</a>
+            </template>
+          </span>
+        </s-table>
       </div>
       <div style="margin-top: 30px">
         <div class="table-operator">
           <span style="font-size: 20px;font-weight: bold;padding: 10px;padding-right: 30px">联系人</span>
-          <a-button type="primary" icon="plus" @click="handleAdd2">新建</a-button>
+          <a-button
+            type="primary"
+            icon="plus"
+            @click="handleAdd2">新建</a-button>
         </div>
         <a-table
           ref="contactTable"
@@ -82,16 +124,19 @@
           rowKey="key"
           :columns="contactColumns"
           :dataSource="contacts"
-          :alert="true"
-        >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-          <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="handleEdit2(record)">配置</a>
-          </template>
-        </span>
+          :alert="true">
+          <span
+            slot="serial"
+            slot-scope="text, record, index">
+            {{ index + 1 }}
+          </span>
+          <span
+            slot="action"
+            slot-scope="text, record">
+            <template>
+              <a @click="handleEdit2(record)">配置</a>
+            </template>
+          </span>
         </a-table>
       </div>
       <create-form
@@ -100,17 +145,17 @@
         :loading="confirmLoading"
         :model="mdl"
         @cancel="handleCancel"
-        @ok="handleOk"
-      />
+        @ok="handleOk" />
       <contact-form
         ref="contactForm"
         :visible="visible2"
         :loading="confirmLoading2"
         :model="mdl2"
         @cancel="handleCancel2"
-        @ok="handleOk2"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
+        @ok="handleOk2" />
+      <step-by-step-modal
+        ref="modal"
+        @ok="handleOk" />
     </a-card>
   </page-header-wrapper>
 </template>
@@ -242,10 +287,10 @@ export default {
       loadData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
-          .then(res => {
-            return {
-              data: [{
+        return getServiceList(requestParameters).then(res => {
+          return {
+            data: [
+              {
                 id: 1,
                 companyName: '杭州奥展科技有限公司',
                 address: '天目山路',
@@ -254,19 +299,20 @@ export default {
                 email: '8889132@163.com',
                 productTags: '联想、华为、投影仪',
                 note: '',
-                contacts: [{
-                  id: 1,
-                  contactName: '张三',
-                  sex: '男',
-                  contactWay: '19967323015',
-                  jobs: '商务经理',
-                  address: '上海',
-                  email: '99897979@163.com',
-                  privateContactWay: '1998811233',
-                  hobbies: '运动',
-                  note: '',
-                  parentId: ''
-                },
+                contacts: [
+                  {
+                    id: 1,
+                    contactName: '张三',
+                    sex: '男',
+                    contactWay: '19967323015',
+                    jobs: '商务经理',
+                    address: '上海',
+                    email: '99897979@163.com',
+                    privateContactWay: '1998811233',
+                    hobbies: '运动',
+                    note: '',
+                    parentId: ''
+                  },
                   {
                     id: 2,
                     contactName: '李四',
@@ -279,26 +325,27 @@ export default {
                     hobbies: '运动',
                     note: '',
                     parentId: ''
-                  }]
+                  }
+                ]
               },
-                {
-                  id: 2,
-                  companyName: '杭州奈斯效果科技有限公司',
-                  address: '滨江',
-                  businessScope: '设计',
-                  contactsWay: '1992201131',
-                  email: '8889132@163.com',
-                  productTags: '笔记本、幕布',
-                  note: '',
-                  contracts: []
-                }
-              ],
-              pageNo: 1,
-              pageSize: 10,
-              totalCount: 10,
-              totalPage: 1
-            }
-          })
+              {
+                id: 2,
+                companyName: '杭州奈斯效果科技有限公司',
+                address: '滨江',
+                businessScope: '设计',
+                contactsWay: '1992201131',
+                email: '8889132@163.com',
+                productTags: '笔记本、幕布',
+                note: '',
+                contracts: []
+              }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 10,
+            totalPage: 1
+          }
+        })
       },
       staffInfo: {},
       selectedRowKeys: [],
@@ -402,7 +449,7 @@ export default {
           'background-color': record.id === this.physicalSurveyCurrRowId ? '#1890FF' : 'white'
         },
         on: {
-          click: (event) => {
+          click: event => {
             this.physicalSurveyCurrRowId = record.id
             this.contacts = record.contacts
           }

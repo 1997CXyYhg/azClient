@@ -5,13 +5,18 @@
     :visible="visible"
     :confirmLoading="loading"
     @ok="() => { $emit('ok') }"
-    @cancel="() => { $emit('cancel') }"
-  >
+    @cancel="() => { $emit('cancel') }">
     <a-spin :spinning="loading">
-      <a-form :form="form" v-bind="formLayout">
+      <a-form
+        :form="form"
+        v-bind="formLayout">
         <!-- 检查是否有 id 并且大于0，大于0是修改。其他是新增，新增不显示主键ID -->
-        <a-form-item v-show="model && model.id > 0" label="主键ID">
-          <a-input v-decorator="['id', { initialValue: 0 }]" disabled />
+        <a-form-item
+          v-show="model && model.id > 0"
+          label="主键ID">
+          <a-input
+            v-decorator="['id', { initialValue: 0 }]"
+            disabled />
         </a-form-item>
         <a-row :gutter="24">
           <a-col :span="12">
@@ -28,7 +33,7 @@
         <a-row :gutter="24">
           <a-col :span="12">
             <a-form-item label="合同类型">
-<!--              <a-input v-decorator="['projectType']" />-->
+              <!--              <a-input v-decorator="['projectType']" />-->
               <a-select v-decorator="['contractType']">
                 <a-select-option value="项目合同">
                   多媒体项目
@@ -98,9 +103,9 @@
             <a-form-item label="附件">
               <a-upload
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                :default-file-list="defaultFileList"
-              >
-                <a-button> <a-icon type="upload" /> Upload </a-button>
+                :default-file-list="defaultFileList">
+                <a-button>
+                  <a-icon type="upload" /> Upload </a-button>
               </a-upload>
             </a-form-item>
           </a-col>

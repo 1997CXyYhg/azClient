@@ -1,64 +1,72 @@
 <template>
   <page-header-wrapper>
-    <a-card :bordered="false" title="详情">
+    <a-card
+      :bordered="false"
+      title="详情">
       <div class="table-page-search-wrapper">
         <a-descriptions>
           <a-descriptions-item label="创建时间">
-            {{contractInfo.createDate}}
+            {{ contractInfo.createDate }}
           </a-descriptions-item>
           <a-descriptions-item label="合同名称">
-            {{contractInfo.contractName}}
+            {{ contractInfo.contractName }}
           </a-descriptions-item>
           <a-descriptions-item label="合同类型">
-            {{contractInfo.contractType }}
+            {{ contractInfo.contractType }}
           </a-descriptions-item>
           <a-descriptions-item label="甲方">
-            {{contractInfo.firstParty}}
+            {{ contractInfo.firstParty }}
           </a-descriptions-item>
           <a-descriptions-item label="甲方负责人">
-            {{contractInfo.firstPartyPerson}}
+            {{ contractInfo.firstPartyPerson }}
           </a-descriptions-item>
           <a-descriptions-item label="甲方联系方式">
-            {{contractInfo.firstPartyContactWay}}
+            {{ contractInfo.firstPartyContactWay }}
           </a-descriptions-item>
           <a-descriptions-item label="乙方">
-            {{contractInfo.secondParty}}
+            {{ contractInfo.secondParty }}
           </a-descriptions-item>
           <a-descriptions-item label="乙方负责人">
-            {{contractInfo.secondPartyPerson}}
+            {{ contractInfo.secondPartyPerson }}
           </a-descriptions-item>
           <a-descriptions-item label="乙方联系人">
-            {{contractInfo.secondPartyContactWay}}
+            {{ contractInfo.secondPartyContactWay }}
           </a-descriptions-item>
           <a-descriptions-item label="签订日期">
-            {{contractInfo.signDate}}
+            {{ contractInfo.signDate }}
           </a-descriptions-item>
           <a-descriptions-item label="交付日期">
-            {{contractInfo.deliveryDate}}
+            {{ contractInfo.deliveryDate }}
           </a-descriptions-item>
           <a-descriptions-item label="合同总金额">
             200000
           </a-descriptions-item>
           <a-descriptions-item label="违约责任">
-            {{contractInfo.breachLiability}}
+            {{ contractInfo.breachLiability }}
           </a-descriptions-item>
         </a-descriptions>
-        <a-button type="primary" @click="handleEdit">编辑</a-button>
+        <a-button
+          type="primary"
+          @click="handleEdit">编辑</a-button>
         <create-form
           ref="createModal"
           :visible="visible"
           :loading="confirmLoading"
           :model="mdl"
           @cancel="handleCancel"
-          @ok="handleOk"
-        />
+          @ok="handleOk" />
       </div>
     </a-card>
-    <a-card :bordered="false" title="附件">
+    <a-card
+      :bordered="false"
+      title="附件">
       <div class="table-operator">
         <a-row :gutter="24">
           <a-col :md="8">
-            <a-button type="primary" icon="plus" @click="incomeExpensesAdd">新建</a-button>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="incomeExpensesAdd">新建</a-button>
           </a-col>
         </a-row>
       </div>
@@ -71,16 +79,23 @@
           :data="incomeExpensesData"
           :alert="true"
           :rowSelection="rowSelection"
-          showPagination="auto"
-        >
-          <span slot="serial" slot-scope="text, record, index">
+          showPagination="auto">
+          <span
+            slot="serial"
+            slot-scope="text, record, index">
             {{ index + 1 }}
           </span>
-          <span slot="action" slot-scope="text, record">
+          <span
+            slot="action"
+            slot-scope="text, record">
             <template>
-              <a @click="incomeExpensesEdit(record)" v-if="!record.parentId">下载</a>
+              <a
+                @click="incomeExpensesEdit(record)"
+                v-if="!record.parentId">下载</a>
               <a-divider type="vertical" />
-              <a @click="incomeExpensesEdit(record)" v-if="!record.parentId">删除</a>
+              <a
+                @click="incomeExpensesEdit(record)"
+                v-if="!record.parentId">删除</a>
             </template>
           </span>
         </s-table>
@@ -91,15 +106,22 @@
         :loading="incomeExpensesFormConfirmLoading"
         :model="incomeExpensesFormMdl"
         @cancel="incomeExpensesCancel"
-        @ok="incomeExpensesOk"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
+        @ok="incomeExpensesOk" />
+      <step-by-step-modal
+        ref="modal"
+        @ok="handleOk" />
     </a-card>
-    <a-card :bordered="false" title="采购清单" v-show="contractInfo.contractType === '采购合同'">
+    <a-card
+      :bordered="false"
+      title="采购清单"
+      v-show="contractInfo.contractType === '采购合同'">
       <div class="table-operator">
         <a-row :gutter="24">
           <a-col :md="8">
-            <a-button type="primary" icon="plus" @click="productAdd">新建</a-button>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="productAdd">新建</a-button>
           </a-col>
           <a-col :md="8">
           </a-col>
@@ -117,18 +139,21 @@
           :data="loadData"
           :alert="true"
           :rowSelection="rowSelection"
-          showPagination="auto"
-        >
-        <span slot="serial" slot-scope="text, record, index">
-          {{ index + 1 }}
-        </span>
-          <span slot="action" slot-scope="text, record">
-          <template>
-            <a @click="productEdit(record)">配置</a>
-             <a-divider type="vertical" />
-            <a @click="handleEdit(record)">移除</a>
-          </template>
-        </span>
+          showPagination="auto">
+          <span
+            slot="serial"
+            slot-scope="text, record, index">
+            {{ index + 1 }}
+          </span>
+          <span
+            slot="action"
+            slot-scope="text, record">
+            <template>
+              <a @click="productEdit(record)">配置</a>
+              <a-divider type="vertical" />
+              <a @click="handleEdit(record)">移除</a>
+            </template>
+          </span>
         </s-table>
       </div>
       <product-form
@@ -137,15 +162,21 @@
         :loading="productFormConfirmLoading"
         :model="productFormMdl"
         @cancel="productCancel"
-        @ok="productOk"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
+        @ok="productOk" />
+      <step-by-step-modal
+        ref="modal"
+        @ok="handleOk" />
     </a-card>
-    <a-card :bordered="false" title="收支列表">
+    <a-card
+      :bordered="false"
+      title="收支列表">
       <div class="table-operator">
         <a-row :gutter="24">
           <a-col :md="8">
-            <a-button type="primary" icon="plus" @click="incomeExpensesAdd">新建</a-button>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="incomeExpensesAdd">新建</a-button>
           </a-col>
         </a-row>
       </div>
@@ -158,16 +189,23 @@
           :data="incomeExpensesData"
           :alert="true"
           :rowSelection="rowSelection"
-          showPagination="auto"
-        >
-          <span slot="serial" slot-scope="text, record, index">
+          showPagination="auto">
+          <span
+            slot="serial"
+            slot-scope="text, record, index">
             {{ index + 1 }}
           </span>
-          <span slot="action" slot-scope="text, record">
+          <span
+            slot="action"
+            slot-scope="text, record">
             <template>
-              <a @click="incomeExpensesEdit(record)" v-if="!record.parentId">编辑</a>
+              <a
+                @click="incomeExpensesEdit(record)"
+                v-if="!record.parentId">编辑</a>
               <a-divider type="vertical" />
-              <a @click="incomeExpensesEdit(record)" v-if="!record.parentId">删除</a>
+              <a
+                @click="incomeExpensesEdit(record)"
+                v-if="!record.parentId">删除</a>
             </template>
           </span>
         </s-table>
@@ -178,9 +216,10 @@
         :loading="incomeExpensesFormConfirmLoading"
         :model="incomeExpensesFormMdl"
         @cancel="incomeExpensesCancel"
-        @ok="incomeExpensesOk"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
+        @ok="incomeExpensesOk" />
+      <step-by-step-modal
+        ref="modal"
+        @ok="handleOk" />
     </a-card>
   </page-header-wrapper>
 </template>
@@ -351,10 +390,10 @@ export default {
       loadData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
-          .then(res => {
-            return {
-              data: [{
+        return getServiceList(requestParameters).then(res => {
+          return {
+            data: [
+              {
                 id: 1,
                 productName: '笔记本电脑',
                 brand: '联想',
@@ -366,140 +405,141 @@ export default {
                 type: '实际',
                 note: ''
               },
-                {
-                  id: 1,
-                  productName: '笔记本电脑',
-                  brand: '联想',
-                  options: '',
-                  unit: '台',
-                  count: '1',
-                  price: '4500',
-                  supplier: '联想',
-                  type: '实际',
-                  contractName: '合同1',
-                  note: ''
-                }],
-              pageNo: 1,
-              pageSize: 10,
-              totalCount: 10,
-              totalPage: 1
-            }
-          })
+              {
+                id: 1,
+                productName: '笔记本电脑',
+                brand: '联想',
+                options: '',
+                unit: '台',
+                count: '1',
+                price: '4500',
+                supplier: '联想',
+                type: '实际',
+                contractName: '合同1',
+                note: ''
+              }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 10,
+            totalPage: 1
+          }
+        })
       },
       teamData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
-          .then(res => {
-            return {
-              data: [{
+        return getServiceList(requestParameters).then(res => {
+          return {
+            data: [
+              {
                 id: 1,
                 staffName: '张三',
                 sex: '男',
                 jobs: '工程师',
                 projectDuty: '项目经理'
-              }],
-              pageNo: 1,
-              pageSize: 10,
-              totalCount: 10,
-              totalPage: 1
-            }
-          })
+              }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 10,
+            totalPage: 1
+          }
+        })
       },
       incomeExpensesData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
-          .then(res => {
-            return {
-              data: [
-                {
-                  id: 1,
-                  payMoment: '预付款',
-                  amount: '50000',
-                  handler: '',
-                  type: '计划',
-                  bankName: '',
-                  bandAccountName: '',
-                  bankAccount: '',
-                  note: '',
-                  file: [],
-                  children: [
-                    {
-                      id: 2,
-                      payMoment: '预付款',
-                      amount: '30000',
-                      handler: '张三',
-                      type: '实际',
-                      bankName: '中国银行',
-                      bandAccountName: '张三',
-                      bankAccount: '112315690080802342343',
-                      note: '',
-                      file: [],
-                      parentId: 1
-                    },
-                    {
-                      id: 3,
-                      payMoment: '预付款',
-                      amount: '20000',
-                      handler: '张三',
-                      type: '实际',
-                      bankName: '中国银行',
-                      bandAccountName: '张三',
-                      bankAccount: '112315690080802342343',
-                      note: '',
-                      file: [],
-                      parentId: 1
-                    }
-                  ]
-                },
-                {
-                  id: 4,
-                  payMoment: '设备款',
-                  amount: '50000',
-                  handler: '',
-                  type: '计划',
-                  bankName: '',
-                  bandAccountName: '',
-                  bankAccount: '',
-                  note: '',
-                  file: [],
-                  children: [
-                    {
-                      id: 5,
-                      payMoment: '设备款',
-                      amount: '30000',
-                      handler: '张三',
-                      type: '实际',
-                      bankName: '中国银行',
-                      bandAccountName: '张三',
-                      bankAccount: '112315690080802342343',
-                      note: '',
-                      file: [],
-                      parentId: 4
-                    },
-                    {
-                      id: 6,
-                      payMoment: '设备款',
-                      amount: '20000',
-                      handler: '张三',
-                      type: '实际',
-                      bankName: '中国银行',
-                      bandAccountName: '张三',
-                      bankAccount: '112315690080802342343',
-                      note: '',
-                      file: [],
-                      parentId: 4
-                    }
-                  ]
-                }
-              ],
-              pageNo: 1,
-              pageSize: 10,
-              totalCount: 10,
-              totalPage: 1
-            }
-          })
+        return getServiceList(requestParameters).then(res => {
+          return {
+            data: [
+              {
+                id: 1,
+                payMoment: '预付款',
+                amount: '50000',
+                handler: '',
+                type: '计划',
+                bankName: '',
+                bandAccountName: '',
+                bankAccount: '',
+                note: '',
+                file: [],
+                children: [
+                  {
+                    id: 2,
+                    payMoment: '预付款',
+                    amount: '30000',
+                    handler: '张三',
+                    type: '实际',
+                    bankName: '中国银行',
+                    bandAccountName: '张三',
+                    bankAccount: '112315690080802342343',
+                    note: '',
+                    file: [],
+                    parentId: 1
+                  },
+                  {
+                    id: 3,
+                    payMoment: '预付款',
+                    amount: '20000',
+                    handler: '张三',
+                    type: '实际',
+                    bankName: '中国银行',
+                    bandAccountName: '张三',
+                    bankAccount: '112315690080802342343',
+                    note: '',
+                    file: [],
+                    parentId: 1
+                  }
+                ]
+              },
+              {
+                id: 4,
+                payMoment: '设备款',
+                amount: '50000',
+                handler: '',
+                type: '计划',
+                bankName: '',
+                bandAccountName: '',
+                bankAccount: '',
+                note: '',
+                file: [],
+                children: [
+                  {
+                    id: 5,
+                    payMoment: '设备款',
+                    amount: '30000',
+                    handler: '张三',
+                    type: '实际',
+                    bankName: '中国银行',
+                    bandAccountName: '张三',
+                    bankAccount: '112315690080802342343',
+                    note: '',
+                    file: [],
+                    parentId: 4
+                  },
+                  {
+                    id: 6,
+                    payMoment: '设备款',
+                    amount: '20000',
+                    handler: '张三',
+                    type: '实际',
+                    bankName: '中国银行',
+                    bandAccountName: '张三',
+                    bankAccount: '112315690080802342343',
+                    note: '',
+                    file: [],
+                    parentId: 4
+                  }
+                ]
+              }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 10,
+            totalPage: 1
+          }
+        })
       },
       staffInfo: {},
       selectedRowKeys: [],
@@ -516,7 +556,8 @@ export default {
         secondPartyContactWay: '1102931123',
         signDate: '2021-01-01',
         deliveryDate: '2021-07-01',
-        breachLiability: '违约责任 是指在当事人不履行 合同债务 时，所应承担的 民事责任 。. 想要明确违约责任，首先要知道违约责任的归责原则是什么，因此，明确违约责任的归责原则具有十分重要的意义，下面， 律图 为您介绍合同违约责任的归责原则。. 一、 过错责任. 过错责任，是指由于当事人主观上的故意或者过失而引起的违约责任。. 在发生违约事实的情况下，只有当事人有过错，才能承担违约责任，否则，将不承担违约责任。. 过错责任原则 包含下列两个方面的内容：. ①违约责任由有过错的当事人承担。. 一方合同当事人有过错的，由该方自己承担;双方都有过错的，由双方分别承担。. 例如，在来料 加工合同 中，定作人提供的材料质量不合要求，要承担违约责任。.\n' +
+        breachLiability:
+          '违约责任 是指在当事人不履行 合同债务 时，所应承担的 民事责任 。. 想要明确违约责任，首先要知道违约责任的归责原则是什么，因此，明确违约责任的归责原则具有十分重要的意义，下面， 律图 为您介绍合同违约责任的归责原则。. 一、 过错责任. 过错责任，是指由于当事人主观上的故意或者过失而引起的违约责任。. 在发生违约事实的情况下，只有当事人有过错，才能承担违约责任，否则，将不承担违约责任。. 过错责任原则 包含下列两个方面的内容：. ①违约责任由有过错的当事人承担。. 一方合同当事人有过错的，由该方自己承担;双方都有过错的，由双方分别承担。. 例如，在来料 加工合同 中，定作人提供的材料质量不合要求，要承担违约责任。.\n' +
           '\n',
         file: []
       },

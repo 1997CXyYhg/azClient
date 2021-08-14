@@ -4,20 +4,36 @@
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-            <a-col :md="5" :sm="16">
+            <a-col
+              :md="5"
+              :sm="16">
               <a-form-item label="品牌">
-                <a-input v-model="queryParam.brand" placeholder=""/>
+                <a-input
+                  v-model="queryParam.brand"
+                  placeholder="" />
               </a-form-item>
             </a-col>
-            <a-col :md="5" :sm="16">
+            <a-col
+              :md="5"
+              :sm="16">
               <a-form-item label="产品名称">
-                <a-input v-model="queryParam.productName" placeholder=""/>
+                <a-input
+                  v-model="queryParam.productName"
+                  placeholder="" />
               </a-form-item>
             </a-col>
-            <a-col :md="!advanced && 8 || 24" :sm="24">
-              <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
-                <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-                <a-button style="margin-left: 8px" @click="() => this.queryParam = {}">重置</a-button>
+            <a-col
+              :md="!advanced && 8 || 24"
+              :sm="24">
+              <span
+                class="table-page-search-submitButtons"
+                :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+                <a-button
+                  type="primary"
+                  @click="$refs.table.refresh(true)">查询</a-button>
+                <a-button
+                  style="margin-left: 8px"
+                  @click="() => this.queryParam = {}">重置</a-button>
               </span>
             </a-col>
           </a-row>
@@ -25,39 +41,50 @@
       </div>
 
       <div class="table-operator">
-        <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
-        <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
+        <a-button
+          type="primary"
+          icon="plus"
+          @click="handleAdd">新建</a-button>
+        <a-dropdown
+          v-action:edit
+          v-if="selectedRowKeys.length > 0">
           <a-menu slot="overlay">
-            <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
+            <a-menu-item key="1">
+              <a-icon type="delete" />删除</a-menu-item>
             <!-- lock | unlock -->
-            <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
+            <a-menu-item key="2">
+              <a-icon type="lock" />锁定</a-menu-item>
           </a-menu>
           <a-button style="margin-left: 8px">
-            批量操作 <a-icon type="down" />
+            批量操作
+            <a-icon type="down" />
           </a-button>
         </a-dropdown>
       </div>
       <div>
-          <s-table
-            ref="table"
-            size="default"
-            rowKey="key"
-            :columns="columns"
-            :data="loadData"
-            :alert="true"
-            :rowSelection="rowSelection"
-            showPagination="auto"
-            :customRow="tableCustomRow"
-          >
-      <span slot="serial" slot-scope="text, record, index">
-        {{ index + 1 }}
-      </span>
-            <span slot="action" slot-scope="text, record">
-        <template>
-          <a @click="handleEdit(record)">配置</a>
-        </template>
-      </span>
-          </s-table>
+        <s-table
+          ref="table"
+          size="default"
+          rowKey="key"
+          :columns="columns"
+          :data="loadData"
+          :alert="true"
+          :rowSelection="rowSelection"
+          showPagination="auto"
+          :customRow="tableCustomRow">
+          <span
+            slot="serial"
+            slot-scope="text, record, index">
+            {{ index + 1 }}
+          </span>
+          <span
+            slot="action"
+            slot-scope="text, record">
+            <template>
+              <a @click="handleEdit(record)">配置</a>
+            </template>
+          </span>
+        </s-table>
       </div>
       <create-form
         ref="createModal"
@@ -65,9 +92,10 @@
         :loading="confirmLoading"
         :model="mdl"
         @cancel="handleCancel"
-        @ok="handleOk"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
+        @ok="handleOk" />
+      <step-by-step-modal
+        ref="modal"
+        @ok="handleOk" />
     </a-card>
   </page-header-wrapper>
 </template>
@@ -128,33 +156,34 @@ export default {
       loadData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
-          .then(res => {
-            return {
-              data: [{
+        return getServiceList(requestParameters).then(res => {
+          return {
+            data: [
+              {
                 id: 1,
                 brand: '联想',
                 productName: '电脑',
                 note: ''
               },
-                {
-                  id: 2,
-                  brand: '华为',
-                  productName: '显示器',
-                  note: ''
-                },
-                {
-                  id: 3,
-                  brand: '海康',
-                  productName: '摄像头',
-                  note: ''
-                }],
-              pageNo: 1,
-              pageSize: 10,
-              totalCount: 10,
-              totalPage: 1
-            }
-          })
+              {
+                id: 2,
+                brand: '华为',
+                productName: '显示器',
+                note: ''
+              },
+              {
+                id: 3,
+                brand: '海康',
+                productName: '摄像头',
+                note: ''
+              }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 10,
+            totalPage: 1
+          }
+        })
       },
       staffInfo: {},
       selectedRowKeys: [],
@@ -257,7 +286,7 @@ export default {
           'background-color': record.id === this.physicalSurveyCurrRowId ? '#1890FF' : 'white'
         },
         on: {
-          click: (event) => {
+          click: event => {
             this.physicalSurveyCurrRowId = record.id
             this.staffInfo = record
           }
