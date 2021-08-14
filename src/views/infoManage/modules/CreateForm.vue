@@ -1,135 +1,67 @@
 <template>
   <a-modal
-    title="员工信息"
+    title="新增信息"
     :width="800"
     :visible="visible"
     :confirmLoading="loading"
+    okText="确认"
+    cancelText="取消"
     @ok="() => { $emit('ok') }"
-    @cancel="() => { $emit('cancel') }"
-  >
+    @cancel="() => { $emit('cancel') }">
     <a-spin :spinning="loading">
-      <a-form :form="form" v-bind="formLayout">
+      <a-form
+        :form="form"
+        v-bind="formLayout">
         <!-- 检查是否有 id 并且大于0，大于0是修改。其他是新增，新增不显示主键ID -->
-        <a-form-item v-show="model && model.id > 0" label="主键ID">
-          <a-input v-decorator="['id', { initialValue: 0 }]" disabled />
+        <a-form-item
+          v-show="model && model.id > 0"
+          label="主键ID">
+          <a-input
+            v-decorator="['id', { initialValue: 0 }]"
+            disabled />
         </a-form-item>
         <a-row :gutter="24">
           <a-col :span="12">
-            <a-form-item label="入职日期">
-              <a-input v-decorator="['entryDate']" />
+            <a-form-item label="信息名称">
+              <a-input v-decorator="['infoName']" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="姓名">
-              <a-input v-decorator="['staffName']" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="24">
-          <a-col :span="12">
-            <a-form-item label="性别">
-              <a-input v-decorator="['sex']" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="部门">
-              <a-input v-decorator="['department']" />
+            <a-form-item label="信息内容">
+              <a-input v-decorator="['infoConten']" />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="24">
           <a-col :span="12">
-            <a-form-item label="岗位">
-              <a-input v-decorator="['jobs']" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="联系方式">
-              <a-input v-decorator="['contactWay']" />
+            <a-form-item label="有效日期">
+              <!-- <a-date-picker /> -->
+              <a-range-picker v-decorator="['validDate']" style="width: 280px" />
+              <!-- </a-range-picker> -->
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="24">
           <a-col :span="12">
-            <a-form-item label="身份证号">
-              <a-input v-decorator="['IDCard']" />
+            <a-form-item label="创建日期">
+              <a-input v-decorator="['createDate']" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="出生日期">
-              <a-input v-decorator="['birthDate']" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="24">
-          <a-col :span="12">
-            <a-form-item label="紧急联系人">
-              <a-input v-decorator="['emergencyContact']" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="紧急联系人方式">
-              <a-input v-decorator="['emergencyContactWay']" />
+            <a-form-item label="发布人">
+              <a-input v-decorator="['publisher']" />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="24">
           <a-col :span="12">
-            <a-form-item label="配偶姓名">
-              <a-input v-decorator="['spouseName']" />
+            <a-form-item label="状态">
+              <a-input v-decorator="['status']" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="配偶联系方式">
-              <a-input v-decorator="['spouseContactWay']" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="24">
-          <a-col :span="12">
-            <a-form-item label="父亲姓名">
-              <a-input v-decorator="['fatherName']" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="父亲联系方式">
-              <a-input v-decorator="['fatherNameContactWay']" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="24">
-          <a-col :span="12">
-            <a-form-item label="父亲姓名">
-              <a-input v-decorator="['fatherName']" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="父亲联系方式">
-              <a-input v-decorator="['fatherNameContactWay']" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="24">
-          <a-col :span="12">
-            <a-form-item label="母亲姓名">
-              <a-input v-decorator="['motherName']" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="母亲联系方式">
-              <a-input v-decorator="['motherContactWay']" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="24">
-          <a-col :span="12">
-            <a-form-item label="兴趣爱好">
-              <a-input v-decorator="['hobbies']" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="备注">
-              <a-input v-decorator="['note']" />
+            <a-form-item label="等级">
+              <a-input v-decorator="['level']" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -142,9 +74,18 @@
 import pick from 'lodash.pick'
 
 // 表单字段
-const fields = ['id', 'entryDate', 'staffName', 'sex', 'department', 'jobs', 'contactWay', 'IDCard', 'birthDate',
-'emergencyContact', 'emergencyContactWay', 'spouseName', 'spouseContactWay', 'fatherName', 'fatherNameContactWay',
-'fatherNameContactWay', 'motherName', 'motherContactWay', 'hobbies', 'note']
+const fields = [
+  'id',
+  'infoName',
+  'infoContent',
+  'validDate',
+  'level',
+  'createDate',
+  'publisher',
+  'status',
+  'execPerson',
+  'updateTime'
+]
 
 export default {
   props: {

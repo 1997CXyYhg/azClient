@@ -5,20 +5,20 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col
-              :md="5"
+              :md="6"
               :sm="16">
-              <a-form-item label="姓名">
+              <a-form-item label="信息名称">
                 <a-input
-                  v-model="queryParam.staffName"
+                  v-model="queryParam.infoName"
                   placeholder="" />
               </a-form-item>
             </a-col>
             <a-col
-              :md="5"
+              :md="6"
               :sm="16">
-              <a-form-item label="部门">
+              <a-form-item label="等级">
                 <a-select
-                  v-model="queryParam.department"
+                  v-model="queryParam.level"
                   placeholder="请选择"
                   default-value="0">
                   <a-select-option value="0">研发部</a-select-option>
@@ -28,20 +28,20 @@
               </a-form-item>
             </a-col>
             <a-col
-              :md="5"
+              :md="6"
               :sm="16">
-              <a-form-item label="岗位">
+              <a-form-item label="状态">
                 <a-input
-                  v-model="queryParam.jobs"
+                  v-model="queryParam.status"
                   placeholder="" />
               </a-form-item>
             </a-col>
             <a-col
-              :md="!advanced && 8 || 24"
+              :md="6"
               :sm="24">
               <span
                 class="table-page-search-submitButtons"
-                :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+                :style=" { float: 'right', overflow: 'hidden' }">
                 <a-button
                   type="primary"
                   @click="$refs.table.refresh(true)">查询</a-button>
@@ -78,7 +78,7 @@
       <div>
         <a-row :gutter="48">
           <a-col
-            :md="16"
+            :md="24"
             :sm="24">
             <s-table
               ref="table"
@@ -119,68 +119,6 @@
               </span>
             </s-table>
           </a-col>
-          <a-col
-            :md="8"
-            :sm="24">
-            <a-descriptions
-              title="员工信息"
-              v-show="staffInfo !== {}">
-              <a-descriptions-item label="入职日期">
-                {{ staffInfo.entryDate }}
-              </a-descriptions-item>
-              <a-descriptions-item label="姓名">
-                {{ staffInfo.staffName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="性别">
-                {{ staffInfo.sex }}
-              </a-descriptions-item>
-              <a-descriptions-item label="部门">
-                {{ staffInfo.department }}
-              </a-descriptions-item>
-              <a-descriptions-item label="岗位">
-                {{ staffInfo.jobs }}
-              </a-descriptions-item>
-              <a-descriptions-item label="联系方式">
-                {{ staffInfo.contactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="身份证号">
-                {{ staffInfo.IDCard }}
-              </a-descriptions-item>
-              <a-descriptions-item label="出生日期">
-                {{ staffInfo.birthDate }}
-              </a-descriptions-item>
-              <a-descriptions-item label="紧急联系人">
-                {{ staffInfo.emergencyContact }}
-              </a-descriptions-item>
-              <a-descriptions-item label="紧急联系人方式">
-                {{ staffInfo.emergencyContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="配偶姓名">
-                {{ staffInfo.spouseName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="配偶联系方式">
-                {{ staffInfo.spouseContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="父亲姓名">
-                {{ staffInfo.fatherName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="父亲联系方式">
-                {{ staffInfo.fatherNameContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="母亲姓名">
-                {{ staffInfo.motherName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="母亲联系方式">
-                {{ staffInfo.motherContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="兴趣爱好">
-                {{ staffInfo.hobbies }}
-              </a-descriptions-item>
-              <a-descriptions-item label="备注">
-                {{ staffInfo.note }}
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-col>
         </a-row>
       </div>
       <create-form
@@ -212,24 +150,24 @@ const columns = [
   },
   {
     title: '信息名称',
-    dataIndex: 'entryDate'
+    dataIndex: 'infoName'
   },
   {
     title: '信息内容',
-    dataIndex: 'staffName',
+    dataIndex: 'infoContent',
     scopedSlots: { customRender: 'description' }
   },
   {
     title: '有效日期',
-    dataIndex: 'department'
+    dataIndex: 'validDate'
   },
   {
     title: '等级',
-    dataIndex: 'jobs'
+    dataIndex: 'level'
   },
   {
     title: '创建日期',
-    dataIndex: 'createTime'
+    dataIndex: 'createDate'
   },
   {
     title: '发布人',
@@ -238,6 +176,14 @@ const columns = [
   {
     title: '状态',
     dataIndex: 'status'
+  },
+  {
+    title: '操作人',
+    dataIndex: 'execPerson'
+  },
+  {
+    title: '更新时间',
+    dataIndex: 'updateTime'
   },
   {
     title: '操作',
@@ -285,6 +231,10 @@ export default {
       advanced: false,
       // 查询参数
       queryParam: {},
+      staffInfo: {},
+      selectedRowKeys: [],
+      selectedRows: [],
+      physicalSurveyCurrRowId: null,
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
@@ -294,69 +244,39 @@ export default {
             data: [
               {
                 id: 1,
-                entryDate: '2020-10-01',
-                staffName: '张三',
-                sex: '男',
-                department: '研发部',
-                jobs: '工程师',
-                IDCard: '330382199701100337',
-                birthDate: '1997-01-01',
-                departureDate: '',
-                emergencyContact: '李四',
-                emergencyContactPhone: '19967323015',
-                contactWay: '17705266804',
-                spouseName: '无',
-                spouseContactWay: '',
-                fatherName: '',
-                fatherNameContactWay: '',
-                motherName: '',
-                motherContactWay: '',
-                hobbies: '',
-                note: ''
+                infoName: '2020-10-01',
+                infoConten: '张三',
+                validDate: '1997-01-01',
+                level: '3',
+                createDate: '研发部',
+                publisher: '李四',
+                status: '---',
+                execPerson: '123',
+                updateTime: '330382199701100337'
               },
               {
                 id: 2,
-                entryDate: '2020-10-01',
-                staffName: '李四',
-                sex: '男',
-                department: '研发部',
-                jobs: '工程师',
-                IDCard: '330382199701100337',
-                birthDate: '1997-01-01',
-                departureDate: '',
-                emergencyContact: '李四',
-                emergencyContactPhone: '19967323015',
-                contactWay: '17705266804',
-                spouseName: '无',
-                spouseContactWay: '',
-                fatherName: '',
-                fatherNameContactWay: '',
-                motherName: '',
-                motherContactWay: '',
-                hobbies: '',
-                note: ''
+                infoName: '2020-10-01',
+                infoConten: '张三',
+                validDate: '1997-01-01',
+                level: '3',
+                createDate: '研发部',
+                publisher: '李四',
+                status: '---',
+                execPerson: '123',
+                updateTime: '330382199701100337'
               },
               {
                 id: 3,
-                entryDate: '2020-10-01',
-                staffName: '王五',
-                sex: '男',
-                department: '研发部',
-                jobs: '工程师',
-                IDCard: '330382199701100337',
-                birthDate: '1997-01-01',
-                departureDate: '',
-                emergencyContact: '李四',
-                emergencyContactPhone: '19967323015',
-                contactWay: '17705266804',
-                spouseName: '无',
-                spouseContactWay: '',
-                fatherName: '',
-                fatherNameContactWay: '',
-                motherName: '',
-                motherContactWay: '',
-                hobbies: '',
-                note: ''
+                infoName: '2020-10-01',
+                infoConten: '张三',
+                validDate: '1997-01-01',
+                level: '3',
+                createDate: '研发部',
+                publisher: '李四',
+                status: '---',
+                execPerson: '123',
+                updateTime: '330382199701100337'
               }
             ],
             pageNo: 1,
@@ -365,11 +285,7 @@ export default {
             totalPage: 1
           }
         })
-      },
-      staffInfo: {},
-      selectedRowKeys: [],
-      selectedRows: [],
-      physicalSurveyCurrRowId: null
+      }
     }
   },
   filters: {
@@ -403,6 +319,7 @@ export default {
     handleOk () {
       const form = this.$refs.createModal.form
       this.confirmLoading = true
+      console.log(form)
       form.validateFields((errors, values) => {
         if (!errors) {
           console.log('values', values)

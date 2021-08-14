@@ -37,11 +37,11 @@
               </a-form-item>
             </a-col>
             <a-col
-              :md="!advanced && 8 || 24"
+              :md="6"
               :sm="24">
               <span
                 class="table-page-search-submitButtons"
-                :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+                :style="{ float: 'right', overflow: 'hidden' } ">
                 <a-button
                   type="primary"
                   @click="$refs.table.refresh(true)">查询</a-button>
@@ -78,7 +78,7 @@
       <div>
         <a-row :gutter="48">
           <a-col
-            :md="16"
+            :md="24"
             :sm="24">
             <s-table
               ref="table"
@@ -119,68 +119,6 @@
               </span>
             </s-table>
           </a-col>
-          <a-col
-            :md="8"
-            :sm="24">
-            <a-descriptions
-              title="奖惩信息"
-              v-show="staffInfo !== {}">
-              <a-descriptions-item label="入职日期">
-                {{ staffInfo.entryDate }}
-              </a-descriptions-item>
-              <a-descriptions-item label="姓名">
-                {{ staffInfo.staffName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="性别">
-                {{ staffInfo.sex }}
-              </a-descriptions-item>
-              <a-descriptions-item label="部门">
-                {{ staffInfo.department }}
-              </a-descriptions-item>
-              <a-descriptions-item label="岗位">
-                {{ staffInfo.jobs }}
-              </a-descriptions-item>
-              <a-descriptions-item label="联系方式">
-                {{ staffInfo.contactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="身份证号">
-                {{ staffInfo.IDCard }}
-              </a-descriptions-item>
-              <a-descriptions-item label="出生日期">
-                {{ staffInfo.birthDate }}
-              </a-descriptions-item>
-              <a-descriptions-item label="紧急联系人">
-                {{ staffInfo.emergencyContact }}
-              </a-descriptions-item>
-              <a-descriptions-item label="紧急联系人方式">
-                {{ staffInfo.emergencyContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="配偶姓名">
-                {{ staffInfo.spouseName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="配偶联系方式">
-                {{ staffInfo.spouseContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="父亲姓名">
-                {{ staffInfo.fatherName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="父亲联系方式">
-                {{ staffInfo.fatherNameContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="母亲姓名">
-                {{ staffInfo.motherName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="母亲联系方式">
-                {{ staffInfo.motherContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="兴趣爱好">
-                {{ staffInfo.hobbies }}
-              </a-descriptions-item>
-              <a-descriptions-item label="备注">
-                {{ staffInfo.note }}
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-col>
         </a-row>
       </div>
       <create-form
@@ -216,8 +154,7 @@ const columns = [
   },
   {
     title: '日期',
-    dataIndex: 'date',
-    scopedSlots: { customRender: 'description' }
+    dataIndex: 'createDate'
   },
   {
     title: '事迹',
@@ -233,11 +170,11 @@ const columns = [
   },
   {
     title: '兑现日期',
-    dataIndex: 'execTime'
+    dataIndex: 'execDate'
   },
   {
     title: '信息展示有效期',
-    dataIndex: 'infoValidTime'
+    dataIndex: 'validTime'
   },
   {
     title: '状态',
@@ -289,6 +226,10 @@ export default {
       advanced: false,
       // 查询参数
       queryParam: {},
+      staffInfo: {},
+      selectedRowKeys: [],
+      selectedRows: [],
+      physicalSurveyCurrRowId: null,
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
@@ -298,69 +239,36 @@ export default {
             data: [
               {
                 id: 1,
-                entryDate: '2020-10-01',
                 staffName: '张三',
-                sex: '男',
-                department: '研发部',
-                jobs: '工程师',
-                IDCard: '330382199701100337',
-                birthDate: '1997-01-01',
-                departureDate: '',
-                emergencyContact: '李四',
-                emergencyContactPhone: '19967323015',
-                contactWay: '17705266804',
-                spouseName: '无',
-                spouseContactWay: '',
-                fatherName: '',
-                fatherNameContactWay: '',
-                motherName: '',
-                motherContactWay: '',
-                hobbies: '',
-                note: ''
+                createDate: '男',
+                deed: '研发部',
+                type: '工程师',
+                execResult: '330382199701100337',
+                execDate: '1997-01-01',
+                validTime: '',
+                status: '李四'
               },
               {
                 id: 2,
-                entryDate: '2020-10-01',
-                staffName: '李四',
-                sex: '男',
-                department: '研发部',
-                jobs: '工程师',
-                IDCard: '330382199701100337',
-                birthDate: '1997-01-01',
-                departureDate: '',
-                emergencyContact: '李四',
-                emergencyContactPhone: '19967323015',
-                contactWay: '17705266804',
-                spouseName: '无',
-                spouseContactWay: '',
-                fatherName: '',
-                fatherNameContactWay: '',
-                motherName: '',
-                motherContactWay: '',
-                hobbies: '',
-                note: ''
+                staffName: '张三',
+                createDate: '男',
+                deed: '研发部',
+                type: '工程师',
+                execResult: '330382199701100337',
+                execDate: '1997-01-01',
+                validTime: '',
+                status: '李四'
               },
               {
                 id: 3,
-                entryDate: '2020-10-01',
-                staffName: '王五',
-                sex: '男',
-                department: '研发部',
-                jobs: '工程师',
-                IDCard: '330382199701100337',
-                birthDate: '1997-01-01',
-                departureDate: '',
-                emergencyContact: '李四',
-                emergencyContactPhone: '19967323015',
-                contactWay: '17705266804',
-                spouseName: '无',
-                spouseContactWay: '',
-                fatherName: '',
-                fatherNameContactWay: '',
-                motherName: '',
-                motherContactWay: '',
-                hobbies: '',
-                note: ''
+                staffName: '张三',
+                createDate: '男',
+                deed: '研发部',
+                type: '工程师',
+                execResult: '330382199701100337',
+                execDate: '1997-01-01',
+                validTime: '',
+                status: '李四'
               }
             ],
             pageNo: 1,
@@ -369,11 +277,7 @@ export default {
             totalPage: 1
           }
         })
-      },
-      staffInfo: {},
-      selectedRowKeys: [],
-      selectedRows: [],
-      physicalSurveyCurrRowId: null
+      }
     }
   },
   filters: {
