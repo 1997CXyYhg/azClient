@@ -5,18 +5,18 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col
-              :md="5"
+              :md="6"
               :sm="16">
-              <a-form-item label="姓名">
+              <a-form-item label="执行人">
                 <a-input
                   v-model="queryParam.staffName"
                   placeholder="" />
               </a-form-item>
             </a-col>
             <a-col
-              :md="5"
+              :md="6"
               :sm="16">
-              <a-form-item label="部门">
+              <a-form-item label="任务等级">
                 <a-select
                   v-model="queryParam.department"
                   placeholder="请选择"
@@ -28,20 +28,20 @@
               </a-form-item>
             </a-col>
             <a-col
-              :md="5"
+              :md="6"
               :sm="16">
-              <a-form-item label="岗位">
+              <a-form-item label="状态">
                 <a-input
                   v-model="queryParam.jobs"
                   placeholder="" />
               </a-form-item>
             </a-col>
             <a-col
-              :md="!advanced && 8 || 24"
-              :sm="24">
+              :md="6"
+              :sm="16">
               <span
                 class="table-page-search-submitButtons"
-                :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+                :style=" { float: 'right', overflow: 'hidden' }">
                 <a-button
                   type="primary"
                   @click="$refs.table.refresh(true)">查询</a-button>
@@ -53,32 +53,10 @@
           </a-row>
         </a-form>
       </div>
-
-      <div class="table-operator">
-        <a-button
-          type="primary"
-          icon="plus"
-          @click="handleAdd">新建</a-button>
-        <a-dropdown
-          v-action:edit
-          v-if="selectedRowKeys.length > 0">
-          <a-menu slot="overlay">
-            <a-menu-item key="1">
-              <a-icon type="delete" />删除</a-menu-item>
-            <!-- lock | unlock -->
-            <a-menu-item key="2">
-              <a-icon type="lock" />锁定</a-menu-item>
-          </a-menu>
-          <a-button style="margin-left: 8px">
-            批量操作
-            <a-icon type="down" />
-          </a-button>
-        </a-dropdown>
-      </div>
       <div>
         <a-row :gutter="48">
           <a-col
-            :md="16"
+            :md="24"
             :sm="24">
             <s-table
               ref="table"
@@ -90,6 +68,14 @@
               :rowSelection="rowSelection"
               showPagination="auto"
               :customRow="tableCustomRow">
+              <div
+                slot="expandedRowRender"
+                slot-scope="record"
+                style="margin: 0">
+                <p>计划交付日期: {{ record.planCompleteDate }}&nbsp;&nbsp;&nbsp;&nbsp;实际交付日期: {{ record.completeDate }}</p>
+                <p>关联项目: {{ record.projectName }}&nbsp;&nbsp;&nbsp;&nbsp;备注: {{ record.noe }}&nbsp;&nbsp;&nbsp;完成质量:{{ record.completeQuality }}</p>
+                <p>相关附件: {{ record.fileNames }}</p>
+              </div>
               <span
                 slot="serial"
                 slot-scope="text, record, index">
@@ -109,7 +95,6 @@
                   :length="4"
                   tooltip>{{ text }}</ellipsis>
               </span>
-
               <span
                 slot="action"
                 slot-scope="text, record">
@@ -119,91 +104,98 @@
               </span>
             </s-table>
           </a-col>
-          <a-col
-            :md="8"
-            :sm="24">
-            <a-descriptions
-              title="员工信息"
-              v-show="staffInfo !== {}">
-              <a-descriptions-item label="入职日期">
-                {{ staffInfo.entryDate }}
-              </a-descriptions-item>
-              <a-descriptions-item label="姓名">
-                {{ staffInfo.staffName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="性别">
-                {{ staffInfo.sex }}
-              </a-descriptions-item>
-              <a-descriptions-item label="部门">
-                {{ staffInfo.department }}
-              </a-descriptions-item>
-              <a-descriptions-item label="岗位">
-                {{ staffInfo.jobs }}
-              </a-descriptions-item>
-              <a-descriptions-item label="联系方式">
-                {{ staffInfo.contactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="身份证号">
-                {{ staffInfo.IDCard }}
-              </a-descriptions-item>
-              <a-descriptions-item label="出生日期">
-                {{ staffInfo.birthDate }}
-              </a-descriptions-item>
-              <a-descriptions-item label="紧急联系人">
-                {{ staffInfo.emergencyContact }}
-              </a-descriptions-item>
-              <a-descriptions-item label="紧急联系人方式">
-                {{ staffInfo.emergencyContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="配偶姓名">
-                {{ staffInfo.spouseName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="配偶联系方式">
-                {{ staffInfo.spouseContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="父亲姓名">
-                {{ staffInfo.fatherName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="父亲联系方式">
-                {{ staffInfo.fatherNameContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="母亲姓名">
-                {{ staffInfo.motherName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="母亲联系方式">
-                {{ staffInfo.motherContactWay }}
-              </a-descriptions-item>
-              <a-descriptions-item label="兴趣爱好">
-                {{ staffInfo.hobbies }}
-              </a-descriptions-item>
-              <a-descriptions-item label="备注">
-                {{ staffInfo.note }}
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-col>
         </a-row>
       </div>
-      <create-form
+      <!-- <create-form
         ref="createModal"
         :visible="visible"
         :loading="confirmLoading"
         :model="mdl"
         @cancel="handleCancel"
-        @ok="handleOk" />
-      <step-by-step-modal
-        ref="modal"
-        @ok="handleOk" />
+        @ok="handleOk" /> -->
+      <a-modal
+        v-model="showModal"
+        title="更新任务"
+        :footer="null"
+      >
+        <a-form
+          :form="form"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 12 }"
+          @submit="handleSubmit">
+          <a-form-item label="附件">
+            <a-upload-dragger
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              :file-list="fileList"
+              :multiple="true"
+              @change="handleChange">
+              <div v-if="fileList.length < 5">
+                <a-icon type="plus" />
+                <div class="ant-upload-text">
+                  Upload
+                </div>
+              </div>
+            </a-upload-dragger>
+          </a-form-item>
+          <a-form-item label="执行人" >
+            <a-input v-decorator="['staffName', { rules: [{ required: true, message: '请输入执行人' }] }]" />
+          </a-form-item>
+          <a-form-item label="预计完成时间">
+            <!-- <a-input v-decorator="['planCompleteDate', { rules: [{ required: true, message: '请输入预计完成时间' }] }]" /> -->
+            <a-date-picker
+              type="date"
+              :showToday="false"
+              placeholder="选择预计完成日期"
+              v-decorator="['planCompleteDate', { rules: [{ required: true, message: '请输入预计完成时间' }] }]"
+              style="width: 100%;"
+            />
+          </a-form-item>
+          <a-form-item label="状态">
+            <!-- <a-input v-decorator="['status', { rules: [{ required: true, message: '请输入状态' }] }]" /> -->
+            <a-select
+              v-decorator="[
+                'status',
+                { rules: [{ required: true, message: '请输入状态' }] },
+              ]"
+              placeholder="请选择状态"
+            >
+              <a-select-option value="0">
+                合格
+              </a-select-option>
+              <a-select-option value="1">
+                良
+              </a-select-option>
+              <a-select-option value="2">
+                优
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item label="完成质量">
+            <a-input v-decorator="['completeQuality', { rules: [{ required: true, message: '请输入完成质量' }] }]" />
+          </a-form-item>
+          <a-form-item label="等级">
+            <a-input v-decorator="['level', { rules: [{ required: true, message: '请输入等级' }] }]" />
+          </a-form-item>
+          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+            <a-button
+              type="primary"
+              html-type="submit">
+              提交
+            </a-button>
+          </a-form-item>
+        </a-form>
+      </a-modal>
     </a-card>
   </page-header-wrapper>
 </template>
 
 <script>
 import moment from 'moment'
-import { STable, Ellipsis } from '@/components'
+import { STable } from '@/components'
 import { getRoleList, getServiceList } from '@/api/manage'
-
-import StepByStepModal from './modules/StepByStepModal'
-import CreateForm from './modules/CreateForm'
+// import { FormModel } from 'ant-design-vue'
+// import StepByStepModal from './modules/StepByStepModal'
+// import CreateForm from './modules/CreateForm'
 
 const columns = [
   {
@@ -211,25 +203,41 @@ const columns = [
     scopedSlots: { customRender: 'serial' }
   },
   {
-    title: '入职日期',
-    dataIndex: 'entryDate'
+    title: '任务名称',
+    dataIndex: 'taskName'
   },
   {
-    title: '姓名',
-    dataIndex: 'staffName',
-    scopedSlots: { customRender: 'description' }
+    title: '任务目标',
+    dataIndex: 'taskTarget'
+    // scopedSlots: { customRender: 'description' }
   },
   {
-    title: '部门',
-    dataIndex: 'department'
+    title: '开始日期',
+    dataIndex: 'beginDate'
   },
   {
-    title: '岗位',
-    dataIndex: 'jobs'
+    title: '执行人',
+    dataIndex: 'staffName'
   },
   {
-    title: '角色',
-    dataIndex: 'role'
+    title: '父任务',
+    dataIndex: 'parentTask'
+  },
+  {
+    title: '等级',
+    dataIndex: 'level'
+  },
+  {
+    title: '状态',
+    dataIndex: 'status'
+  },
+  {
+    title: '操作人',
+    dataIndex: 'execPerson'
+  },
+  {
+    title: '更新时间',
+    dataIndex: 'updateTime'
   },
   {
     title: '操作',
@@ -261,18 +269,40 @@ const statusMap = {
 export default {
   name: 'TableList',
   components: {
-    STable,
-    Ellipsis,
-    CreateForm,
-    StepByStepModal
+    STable
+    // FormModel
+    // Ellipsis,
+    // CreateForm,
+    // StepByStepModal
   },
   data () {
     this.columns = columns
     return {
       // create model
-      visible: false,
+      // visible: false,
+      form: this.$form.createForm(this, { name: 'coordinated' }),
+      fileList: [],
       confirmLoading: false,
-      mdl: null,
+      showModal: false,
+      updateRecordData: {
+        taskName: '任务名称',
+        taskTarget: '任务目标',
+        beginDate: '开始日期',
+        staffName: '执行人',
+        parentTask: '父任务',
+        level: '等级',
+        status: '进行中、审核中、完成',
+        execPerson: '执行人',
+        updateTime: '更新时间',
+        planCompleteDate: '计划交付日期（',
+        completeDate: '实际完成日期',
+        projectId: 'projectId',
+        projectName: 'projectName',
+        fileId: 'fileId',
+        fileNames: '附件。。',
+        fileList: [],
+        completeQuality: '完成质量'
+      },
       // 高级搜索 展开/关闭
       advanced: false,
       // 查询参数
@@ -286,69 +316,23 @@ export default {
             data: [
               {
                 id: 1,
-                entryDate: '2020-10-01',
-                staffName: '张三',
-                sex: '男',
-                department: '研发部',
-                jobs: '工程师',
-                IDCard: '330382199701100337',
-                birthDate: '1997-01-01',
-                departureDate: '',
-                emergencyContact: '李四',
-                emergencyContactPhone: '19967323015',
-                contactWay: '17705266804',
-                spouseName: '无',
-                spouseContactWay: '',
-                fatherName: '',
-                fatherNameContactWay: '',
-                motherName: '',
-                motherContactWay: '',
-                hobbies: '',
-                note: ''
-              },
-              {
-                id: 2,
-                entryDate: '2020-10-01',
-                staffName: '李四',
-                sex: '男',
-                department: '研发部',
-                jobs: '工程师',
-                IDCard: '330382199701100337',
-                birthDate: '1997-01-01',
-                departureDate: '',
-                emergencyContact: '李四',
-                emergencyContactPhone: '19967323015',
-                contactWay: '17705266804',
-                spouseName: '无',
-                spouseContactWay: '',
-                fatherName: '',
-                fatherNameContactWay: '',
-                motherName: '',
-                motherContactWay: '',
-                hobbies: '',
-                note: ''
-              },
-              {
-                id: 3,
-                entryDate: '2020-10-01',
-                staffName: '王五',
-                sex: '男',
-                department: '研发部',
-                jobs: '工程师',
-                IDCard: '330382199701100337',
-                birthDate: '1997-01-01',
-                departureDate: '',
-                emergencyContact: '李四',
-                emergencyContactPhone: '19967323015',
-                contactWay: '17705266804',
-                spouseName: '无',
-                spouseContactWay: '',
-                fatherName: '',
-                fatherNameContactWay: '',
-                motherName: '',
-                motherContactWay: '',
-                hobbies: '',
-                note: ''
+                taskName: '任务名称',
+                taskTarget: '任务目标',
+                beginDate: '开始日期',
+                staffName: '执行人',
+                parentTask: '父任务',
+                level: '等级',
+                status: '进行中、审核中、完成',
+                execPerson: '操作人',
+                updateTime: '更新时间',
+                planCompleteDate: '计划交付日期（',
+                completeDate: '实际完成日期',
+                projectId: 'projectId',
+                projectName: 'projectName',
+                fileId: 'fileId',
+                fileNames: '附件。。',
+                completeQuality: '完成质量',
+                note: 'notenote'
               }
             ],
             pageNo: 1,
@@ -384,13 +368,30 @@ export default {
     }
   },
   methods: {
+    handleSubmit (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values, this.fileList.name)
+          this.showModal = false
+        }
+      })
+    },
+    handleChange ({ fileList }) {
+      this.fileList = fileList
+    },
+    handleUpdate (updateRecordData) {
+      this.showModal = false
+      console.log(JSON.stringify(updateRecordData))
+    },
     handleAdd () {
-      this.mdl = null
+      this.updateRecordData = null
       this.visible = true
     },
     handleEdit (record) {
       this.visible = true
-      this.mdl = { ...record }
+      this.showModal = true
+      this.updateRecordData = { ...record }
     },
     handleOk () {
       const form = this.$refs.createModal.form
@@ -441,13 +442,6 @@ export default {
 
       const form = this.$refs.createModal.form
       form.resetFields() // 清理表单数据（可不做）
-    },
-    handleSub (record) {
-      if (record.status !== 0) {
-        this.$message.info(`${record.no} 订阅成功`)
-      } else {
-        this.$message.error(`${record.no} 订阅失败，规则已关闭`)
-      }
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
